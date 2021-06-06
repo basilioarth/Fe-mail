@@ -29,6 +29,12 @@ module.exports = http.createServer((req, res) => {
     } else if(reqUrl.pathname == '/foward' && req.method === 'POST') {
         console.log('Request Type: ' + req.method + ' Endpoint: ' + reqUrl.pathname);
         service.sendFoward(req, res);
+    } else if(reqUrl.pathname == '/delete-all' && req.method === 'DELETE') {
+        console.log('Request Type: ' + req.method + ' Endpoint: ' + reqUrl.pathname);
+        service.deleteAllEmails(req, res);
+    } else if(reqUrl.pathname == '/delete' && req.method === 'DELETE') {
+        console.log('Request Type: ' + req.method + ' Endpoint: ' + reqUrl.pathname);
+        service.deleteEmail(req, res);
     } else {
         console.log('Request Type: ' + req.method + ' Invalid Endpoint: ' + reqUrl.pathname);
         service.invalidRequest(req, res);
