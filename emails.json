@@ -1,0 +1,66 @@
+ {   
+    "arthur": 
+    {   "sent": 
+        [
+            {
+                "id": 1,
+                "sender": "arthur",
+                "addressee": "gisele",
+                "subject": "Assunto 1 - arthur",
+                "body": "Texto 1 - arthur",
+                "type": "sent"
+            },
+            {
+                "id": 2,
+                "sender": "arthur",
+                "addressee": "gisele",
+                "subject": "Assunto 2 - arthur",
+                "body": "Texto 2 - arthur",
+                "type": "sent"
+            }
+        ],
+        "inbox":
+        [
+            {
+                "id": 1,
+                "sender": "gisele",
+                "addressee": "arthur",
+                "subject": "Assunto 1 - gisele",
+                "body": "Texto 1 - gisele",
+                "type": "sent"
+            }
+        ]
+    },
+    "gisele": 
+    {   "sent":
+        [
+            {
+                "id": 1,
+                "sender": "gisele",
+                "addressee": "arthur",
+                "subject": "Assunto 1 - gisele",
+                "body": "Texto 1 - gisele",
+                "type": "sent"
+            }
+        ],
+        "inbox": 
+        [
+            {
+                "id": 1,
+                "sender": "arthur",
+                "addressee": "gisele",
+                "subject": "Assunto 1 - arthur",
+                "body": "Texto 1 - arthur",
+                "type": "sent"
+            },
+            {
+                "id": 2,
+                "sender": "arthur",
+                "addressee": "gisele",
+                "subject": "Assunto 2 - arthur",
+                "body": "Texto 2 - arthur",
+                "type": "sent"
+            }
+        ]
+    }
+}
