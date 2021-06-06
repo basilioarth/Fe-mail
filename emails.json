@@ -1,4 +1,19 @@
- {   
+ {  
+    "users":
+    [
+        {
+            "id": 1,
+            "name": "arthur",
+            "email": "arthur@email.com",
+            "password": "arthur123"
+        },
+        {
+            "id": 2,
+            "name": "gisele",
+            "email": "gisele@email.com",
+            "password": "gisele123"
+        }
+    ], 
     "arthur": 
     {   "sent": 
         [
