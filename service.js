@@ -1,5 +1,6 @@
 const url = require('url');
 const emails = require('./emails.json');
+const fs = require('fs');
 
 exports.getUser = function(req, res) {
     const reqUrl = url.parse(req.url, true);
@@ -152,6 +153,10 @@ exports.sendEmail = function(req, res) {
             "body": postBody.body,
             "type": postBody.type
         };
+
+        fs.writeFile('./emails.json', JSON.stringify(emails), (err) => {
+            if(err) throw err;
+        });
 
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
