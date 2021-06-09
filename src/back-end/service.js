@@ -1,5 +1,5 @@
 const url = require('url');
-const emails = require('./emails.json');
+const emails = require('../back-end/data/emails.json');
 const fs = require('fs');
 
 exports.getUser = function(req, res) {
