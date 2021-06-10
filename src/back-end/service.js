@@ -2,7 +2,7 @@ const url = require('url');
 const emails = require('../back-end/data/emails.json');
 const fs = require('fs');
 
-exports.getUser = function(req, res) {
+exports.getUser = function(req, res, headers) {
     const reqUrl = url.parse(req.url, true);
 
     if(reqUrl.query.name){
@@ -11,11 +11,13 @@ exports.getUser = function(req, res) {
         })
         
         if(response.length === 0) {
-            res.statusCode = 404;
+            //res.statusCode = 404;
+            res.writeHead(404, headers);
         } else {
-            res.statusCode = 200;
+            //res.statusCode = 200;
+            res.writeHead(200, headers);
         }
-        res.setHeader('Content-Type', 'application/json');
+        //res.setHeader(headers);
         res.end(JSON.stringify(response));
     } else {
         res.statusCode = 400;

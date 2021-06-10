@@ -5,9 +5,25 @@ module.exports = http.createServer((req, res) => {
     var service = require('./service.js');
     const reqUrl = url.parse(req.url, true);
 
-    if(reqUrl.pathname == '/user' && req.method === 'GET'){
+    const headers = {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "OPTIONS, POST, GET, DELETE",
+        "Access-Control-Allow-Headers": "*",
+        "Access-Control-Max-Age": 2592000, // 30 days
+        /** add other headers as per requirement */
+    };
+    if (req.method === "OPTIONS") {
+        console.log("Peguei o Preflight")
+        res.writeHead(204, headers);
+        res.end();
+      } else if(reqUrl.pathname == '/user' && req.method === 'GET'){
+        console.log("Entramos na rota do user")
         console.log('Request Type: ' + req.method + ' Endpoint: ' + reqUrl.pathname);
-        service.getUser(req, res);
+        service.getUser(req, res, headers);
+        /*
+        res.writeHead(200, headers);
+        res.end("Hello World");
+        */
     } else if(reqUrl.pathname == '/emails' && req.method === 'GET'){
         console.log('Request Type: ' + req.method + ' Endpoint: ' + reqUrl.pathname);
         service.getAllUserEmails(req, res);
