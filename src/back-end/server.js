@@ -8,51 +8,43 @@ module.exports = http.createServer((req, res) => {
     const headers = {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "OPTIONS, POST, GET, DELETE",
-        "Access-Control-Allow-Headers": "*",
-        "Access-Control-Max-Age": 2592000, // 30 days
-        /** add other headers as per requirement */
+        "Access-Control-Allow-Headers": "*", 
     };
     if (req.method === "OPTIONS") {
-        console.log("Peguei o Preflight")
         res.writeHead(204, headers);
         res.end();
       } else if(reqUrl.pathname == '/user' && req.method === 'GET'){
-        console.log("Entramos na rota do user")
         console.log('Request Type: ' + req.method + ' Endpoint: ' + reqUrl.pathname);
         service.getUser(req, res, headers);
-        /*
-        res.writeHead(200, headers);
-        res.end("Hello World");
-        */
     } else if(reqUrl.pathname == '/emails' && req.method === 'GET'){
         console.log('Request Type: ' + req.method + ' Endpoint: ' + reqUrl.pathname);
-        service.getAllUserEmails(req, res);
+        service.getAllUserEmails(req, res, headers);
     } else if(reqUrl.pathname == '/emails-sended' && req.method === 'GET'){
         console.log('Request Type: ' + req.method + ' Endpoint: ' + reqUrl.pathname);
-        service.getAllSendedEmails(req, res); 
+        service.getAllSendedEmails(req, res, headers); 
     } else if(reqUrl.pathname == '/emails-recieved' && req.method === 'GET'){
         console.log('Request Type: ' + req.method + ' Endpoint: ' + reqUrl.pathname);
-        service.getAllRecievedEmails(req, res); 
+        service.getAllRecievedEmails(req, res, headers); 
     } else if(reqUrl.pathname == '/email' && req.method === 'GET'){
         console.log('Request Type: ' + req.method + ' Endpoint: ' + reqUrl.pathname);
-        service.getUserEmail(req, res); 
+        service.getUserEmail(req, res, headers); 
     } else if(reqUrl.pathname == '/send' && req.method === 'POST') {
         console.log('Request Type: ' + req.method + ' Endpoint: ' + reqUrl.pathname);
-        service.sendEmail(req, res);
+        service.sendEmail(req, res, headers);
     } else if(reqUrl.pathname == '/response' && req.method === 'POST') {
         console.log('Request Type: ' + req.method + ' Endpoint: ' + reqUrl.pathname);
-        service.sendResponse(req, res);
+        service.sendResponse(req, res, headers);
     } else if(reqUrl.pathname == '/foward' && req.method === 'POST') {
         console.log('Request Type: ' + req.method + ' Endpoint: ' + reqUrl.pathname);
-        service.sendFoward(req, res);
+        service.sendFoward(req, res, headers);
     } else if(reqUrl.pathname == '/delete-all' && req.method === 'DELETE') {
         console.log('Request Type: ' + req.method + ' Endpoint: ' + reqUrl.pathname);
-        service.deleteAllEmails(req, res);
+        service.deleteAllEmails(req, res, headers);
     } else if(reqUrl.pathname == '/delete' && req.method === 'DELETE') {
         console.log('Request Type: ' + req.method + ' Endpoint: ' + reqUrl.pathname);
-        service.deleteEmail(req, res);
+        service.deleteEmail(req, res, headers);
     } else {
         console.log('Request Type: ' + req.method + ' Invalid Endpoint: ' + reqUrl.pathname);
-        service.invalidRequest(req, res);
+        service.invalidRequest(res, headers);
     }
 });
