@@ -11,17 +11,12 @@ exports.getUser = function(req, res, headers) {
         })
         
         if(response.length === 0) {
-            //res.statusCode = 404;
             res.writeHead(404, headers);
         } else {
-            //res.statusCode = 200;
             res.writeHead(200, headers);
         }
-        //res.setHeader(headers);
         res.end(JSON.stringify(response));
     } else {
-        //res.statusCode = 400;
-        //res.setHeader('Content-Type', 'application/json');
         res.writeHead(400, headers);
         res.end('Invalid-Request');
     }
@@ -34,19 +29,13 @@ exports.getAllUserEmails = function(req, res, headers) {
         var response = emails[reqUrl.query.name.toLowerCase()]
 
         if(response === undefined) {
-            //res.statusCode = 404
-            //res.setHeader('Content-Type', 'application/json');
             res.writeHead(404, headers);
             res.end(JSON.stringify({}));
         } else {
-            //res.statusCode = 200;
-            //res.setHeader('Content-Type', 'application/json');
             res.writeHead(200, headers);
             res.end(JSON.stringify(response));
         }
     } else {
-        //res.statusCode = 400;
-        //res.setHeader('Content-Type', 'application/json');
         res.writeHead(400, headers);
         res.end('Invalid-Request');
     }
@@ -59,24 +48,16 @@ exports.getAllSendedEmails = function(req, res, headers) {
         var response = emails[reqUrl.query.name.toLowerCase()]
 
         if(response === undefined) {
-            //res.statusCode = 404
-            //res.setHeader('Content-Type', 'application/json');
             res.writeHead(404, headers);
             res.end(JSON.stringify({}));
         } else if(response["sent"].length === 0) {
-            //res.statusCode = 404
-            //res.setHeader('Content-Type', 'application/json');
             res.writeHead(404, headers);
             res.end(JSON.stringify([]));
         } else {
-            //res.statusCode = 200;
-            //res.setHeader('Content-Type', 'application/json');
             res.writeHead(200, headers);
             res.end(JSON.stringify(response["sent"]));
         }
     } else {
-        //res.statusCode = 400;
-        //res.setHeader('Content-Type', 'application/json');
         res.writeHead(400, headers);
         res.end('Invalid-Request');
     }
@@ -89,24 +70,16 @@ exports.getAllRecievedEmails = function(req, res, headers) {
         var response = emails[reqUrl.query.name.toLowerCase()]
 
         if(response === undefined) {
-            //res.statusCode = 404
-            //res.setHeader('Content-Type', 'application/json');
             res.writeHead(404, headers);
             res.end(JSON.stringify({}));
         } else if(response["inbox"].length === 0) {
-            //res.statusCode = 404
-            //res.setHeader('Content-Type', 'application/json');
             res.writeHead(404, headers);
             res.end(JSON.stringify([]));
         } else {
-            //res.statusCode = 200;
-            //res.setHeader('Content-Type', 'application/json');
             res.writeHead(200, headers);
             res.end(JSON.stringify(response["inbox"]));
         }
     } else {
-        //res.statusCode = 400;
-        //res.setHeader('Content-Type', 'application/json');
         res.writeHead(400, headers);
         res.end('Invalid-Request');
     }
@@ -119,13 +92,9 @@ exports.getUserEmail = function(req, res, headers) {
         var response = emails[reqUrl.query.name.toLowerCase()]
 
         if(response === undefined) {
-            //res.statusCode = 404
-            //res.setHeader('Content-Type', 'application/json');
             res.writeHead(404, headers);
             res.end(JSON.stringify({}));
         } else if(response[reqUrl.query.class] === undefined){
-            //res.statusCode = 404
-            //res.setHeader('Content-Type', 'application/json');
             res.writeHead(404, headers);
             res.end(JSON.stringify({}));
         } else {
@@ -134,20 +103,14 @@ exports.getUserEmail = function(req, res, headers) {
             })
             
             if(response.length === 0) {
-                //res.statusCode = 404;
-                //res.setHeader('Content-Type', 'application/json');
                 res.writeHead(404, headers);
             res.end(JSON.stringify({}));
             } else {
-                //res.statusCode = 200;
-                //res.setHeader('Content-Type', 'application/json');
                 res.writeHead(200, headers);
                 res.end(JSON.stringify(response));
             }
         }
     } else {
-        //res.statusCode = 400;
-        //res.setHeader('Content-Type', 'application/json');
         res.writeHead(400, headers);
         res.end('Invalid-Request');
     }
@@ -187,8 +150,6 @@ exports.sendEmail = function(req, res, headers) {
             if(err) throw err;
         });
 
-        //res.statusCode = 200;
-        //res.setHeader('Content-Type', 'application/json');
         res.writeHead(200, headers);
         res.end(JSON.stringify(emails));
     });
@@ -199,13 +160,9 @@ exports.deleteAllEmails = function(req, res, headers) {
 
     if(reqUrl.query.name && reqUrl.query.class){
         if(emails[reqUrl.query.name.toLowerCase()] === undefined) {
-            //res.statusCode = 404
-            //res.setHeader('Content-Type', 'application/json');
             res.writeHead(404, headers);
             res.end(JSON.stringify({}));
         } else if(emails[reqUrl.query.name.toLowerCase()][reqUrl.query.class] === undefined){
-            //res.statusCode = 404
-            //res.setHeader('Content-Type', 'application/json');
             res.writeHead(404, headers);
             res.end(JSON.stringify({}));
         } else {
@@ -213,13 +170,10 @@ exports.deleteAllEmails = function(req, res, headers) {
             fs.writeFile('./emails.json', JSON.stringify(emails), (err) => {
                 if(err) throw err;
             });
-            //res.setHeader('Content-Type', 'application/json');
             res.writeHead(200, headers);
             res.end(`All-${reqUrl.query.class}-emails-were-deleted`);
         }
     } else {
-        //res.statusCode = 400;
-        //res.setHeader('Content-Type', 'application/json');
         res.writeHead(400, headers);
         res.end('Invalid-Request');
     }
@@ -229,13 +183,9 @@ exports.deleteEmail = function(req, res, headers) {
     const reqUrl = url.parse(req.url, true);
     if(reqUrl.query.name && reqUrl.query.id && reqUrl.query.class){
         if(emails[reqUrl.query.name.toLowerCase()] === undefined) {
-            //res.statusCode = 404
-            //res.setHeader('Content-Type', 'application/json');
             res.writeHead(404, headers);
             res.end(JSON.stringify({}));
         } else if(emails[reqUrl.query.name.toLowerCase()][reqUrl.query.class] === undefined){
-            //res.statusCode = 404
-            //res.setHeader('Content-Type', 'application/json');
             res.writeHead(404, headers);
             res.end(JSON.stringify({}));
         } else {
@@ -248,8 +198,6 @@ exports.deleteEmail = function(req, res, headers) {
             })
 
             if(cont === -1) {
-                //res.statusCode = 404;
-                //res.setHeader('Content-Type', 'application/json');-
                 res.writeHead(404, headers);
                 res.end(JSON.stringify({}));
             } else {
@@ -257,22 +205,17 @@ exports.deleteEmail = function(req, res, headers) {
                 fs.writeFile('./emails.json', JSON.stringify(emails), (err) => {
                     if(err) throw err;
                 });
-                //res.setHeader('Content-Type', 'application/json');
-                res.writeFile(200, headers);
+                res.writeHead(200, headers);
                 res.end(`User-${reqUrl.query.name}'s-id-${reqUrl.query.id}-${reqUrl.query.class}-email-was-deleted`);
             }
         }
     } else {
-        //res.statusCode = 400;
-        //res.setHeader('Content-Type', 'application/json');
         res.writeHead(400, headers);
         res.end('Invalid-Request');
     }
 };
 
 exports.invalidRequest = function(res, headers) {
-    //res.statusCode = 400;
-    //res.setHeader('Content-Type', 'application/json');
     res.writeHead(400, headers);
     res.end('Invalid-Request');
 };
