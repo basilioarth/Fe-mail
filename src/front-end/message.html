@@ -1,0 +1,289 @@
+<html lang="en">
+  <body>
+    <div id="snippetContent">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script> 
+      <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+      <script src="https://select2.github.io/dist/js/select2.full.js"></script> 
+      <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+      <link href="https://select2.github.io/dist/css/select2.min.css" rel="stylesheet">
+      <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">  
+    <div class="container">
+    <div class="row inbox">
+      <div class="col-md-3">
+          <div class="panel panel-default">
+          <div class="panel-body inbox-menu">
+            <a href="page-inbox-compose.html" class="btn btn-danger btn-block">New Email</a>
+            <ul>
+              <li>
+                <a href="#"><i class="fa fa-inbox"></i> Inbox <span class="label label-danger">4</span></a>
+              </li>
+              <li>
+                <a href="#"><i class="fa fa-star"></i> Stared</a>
+              </li>
+              <li>
+                <a href="#"><i class="fa fa-rocket"></i> Sent</a>
+              </li>
+              <li>
+                <a href="#"><i class="fa fa-trash-o"></i> Trash</a>
+              </li>
+              <li>
+                <a href="#"><i class="fa fa-bookmark"></i> Important<span class="label label-info">5</span></a>
+              </li>
+            </ul>
+          </div>	
+        </div>
+        
+        <div class="panel panel-default">
+          <div class="panel-body contacts">
+            <a href="#" class="btn btn-success btn-block">Contacts</a>
+            <ul>
+              <li><span class="label label-success"></span> Arthur Basílio (You)</li>
+              <li><span class="label label-success"></span> Gisele Ribeiro</li>
+              <li><span class="label label-success"></span> Wesley Lima</li>
+            </ul>
+          </div>
+        </div>
+
+      </div><!--/.col-md-3-->
+      
+      <div class="col-md-9">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <main class="message">
+            <div class="toolbar">
+              <div class="btn-group">
+              <!--
+              <button type="button" class="btn btn-light">
+                  <span class="fa fa-star"></span>
+              </button>
+              -->
+              <button type="button" class="btn btn-light">
+                  <span class="fa fa-star-o"></span>
+              </button>
+              <button type="button" class="btn btn-light">
+                  <span class="fa fa-bookmark-o"></span>
+              </button>
+              <button type="button" class="btn btn-light">
+              <span class="fa fa-trash-o"></span>
+              </div>
+            </div>
+            <div class="details">
+                <div class="title">Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.</div>
+                <div class="header">
+                  <div class="from">
+                      <span>Lukasz Holeczek</span>
+                      lukasz@bootstrapmaster.com
+                  </div>
+                  <div class="date">Today, <b>3:47 PM</b></div>
+                </div>
+                <div class="content">
+                  <blockquote>
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+                      in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                  </blockquote>
+                </div>
+                
+                <form method="post" action="">
+                  <div class="form-group">
+                      <textarea class="form-control" id="message" name="body" rows="12" placeholder="Type here to reply"></textarea>
+                  </div>
+                  <div class="form-group">
+                      <button tabindex="3" type="submit" class="btn btn-success">Reply message</button>
+                      <button tabindex="3" type="submit" class="btn btn-success">Forward</button>
+                  </div>
+                </form>
+            </div>
+            </main>
+          </div>	
+        </div>	
+      </div><!--/.col-md-9-->	
+          
+    </div>
+
+    </div>
+    <style type="text/css">
+      body{
+        margin-top:20px;
+        background:#eee;
+      }
+
+      .inbox .inbox-menu ul {
+          margin-top: 30px;
+          padding: 0;
+          list-style: none
+      }
+
+      .inbox .inbox-menu ul li {
+          height: 30px;
+          padding: 5px 15px;
+          position: relative
+      }
+
+      .inbox .inbox-menu ul li:hover,
+      .inbox .inbox-menu ul li.active {
+          background: #e4e5e6
+      }
+
+      .inbox .inbox-menu ul li.title {
+          margin: 20px 0 -5px 0;
+          text-transform: uppercase;
+          font-size: 10px;
+          color: #d1d4d7
+      }
+
+      .inbox .inbox-menu ul li.title:hover {
+          background: 0 0
+      }
+
+      .inbox .inbox-menu ul li a {
+          display: block;
+          width: 100%;
+          text-decoration: none;
+          color: #3d3f42
+      }
+
+      .inbox .inbox-menu ul li a i {
+          margin-right: 10px
+      }
+
+      .inbox .inbox-menu ul li a .label {
+          position: absolute;
+          top: 10px;
+          right: 15px;
+          display: block;
+          min-width: 14px;
+          height: 14px;
+          padding: 2px
+      }
+
+      .inbox .message .message-title {
+          margin-top: 30px;
+          padding-top: 10px;
+          font-weight: 700;
+          font-size: 14px
+      }
+
+      .inbox .message .header {
+          margin: 20px 0 30px 0;
+          padding: 10px 0 10px 0;
+          border-top: 1px solid #d1d4d7;
+          border-bottom: 1px solid #d1d4d7
+      }
+
+      .inbox .message .header i {
+          margin-top: 1px
+      }
+
+      .inbox .message .header .from {
+          display: inline-block;
+          width: 50%;
+          font-size: 12px;
+          margin-top: -2px;
+          color: #d1d4d7
+      }
+
+      .inbox .message .header .from span {
+          display: block;
+          font-size: 14px;
+          font-weight: 700;
+          color: #3d3f42
+      }
+
+      .inbox .message .header .date {
+          display: inline-block;
+          width: 29%;
+          text-align: right;
+          float: right;
+          font-size: 12px;
+          margin-top: 18px
+      }
+
+      .inbox .contacts ul {
+          margin-top: 30px;
+          padding: 0;
+          list-style: none
+      }
+
+      .inbox .contacts ul li {
+          height: 30px;
+          padding: 5px 15px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis!important;
+          position: relative;
+          cursor: pointer
+      }
+
+      .inbox .contacts ul li .label {
+          display: inline-block;
+          width: 6px;
+          height: 6px;
+          padding: 0;
+          margin: 0 5px 2px 0
+      }
+
+      .inbox .contacts ul li:hover {
+          background: #e4e5e6
+      }
+
+      .inbox main {
+          min-width: 0;
+          flex: 1;
+          padding: 1rem;
+      }
+
+      .inbox .message .details .title {
+        margin-top: 10px;
+        padding-top: 10px;
+        font-weight: 700;
+        font-size: 16px
+      }
+
+      .inbox .message .details .header {
+          display: flex;
+          padding: 1rem 0;
+          margin: 1rem 0;
+          border-top: 1px solid #e1e6ef;
+          border-bottom: 1px solid #e1e6ef;
+      }
+
+      .inbox .message .details .header .from {
+          font-size: 12px;
+          color: #9faecb;
+          align-self: center;
+      }
+
+      .inbox .message .details .header .from span {
+          display: block;
+          font-weight: bold;
+      }
+
+      .inbox .message .details .header .date {
+          margin-left: auto;
+          font-size: 14px;
+          margin-bottom: 18px;
+          
+      }
+
+      @media (max-width: 767px) {
+          .inbox {
+              flex-direction: column;
+          }
+          .inbox nav {
+              flex: 0 0 100%;
+          }
+      }
+
+      @media (max-width: 575px) {
+          .inbox .message .header {
+              flex-flow: row wrap;
+          }
+          .inbox .message .header .date {
+              flex: 0 0 100%;
+          }
+      }
+    </style>
+    </div>
+  </body>
+</html>
