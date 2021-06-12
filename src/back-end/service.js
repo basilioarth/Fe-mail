@@ -5,9 +5,9 @@ const fs = require('fs');
 exports.getUser = function(req, res, headers) {
     const reqUrl = url.parse(req.url, true);
 
-    if(reqUrl.query.name){
+    if(reqUrl.query.username && reqUrl.query.password){
         var response = emails.users.filter((user) => {
-            return user.name == reqUrl.query.name.toLowerCase()
+            return user.username == reqUrl.query.username.toLowerCase() && user.password == reqUrl.query.password;
         })
         
         if(response.length === 0) {
