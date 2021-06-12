@@ -3,13 +3,15 @@
     [
         {
             "id": 1,
-            "name": "arthur",
+            "name": "Arthur Basílio",
+            "username": "arthur",
             "email": "arthur@email.com",
             "password": "arthur123"
         },
         {
             "id": 2,
-            "name": "gisele",
+            "name": "Gisele Ribeiro",
+            "username": "gisele",
             "email": "gisele@email.com",
             "password": "gisele123"
         }
