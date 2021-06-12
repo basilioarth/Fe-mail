@@ -15,6 +15,16 @@
             "email": "gisele@email.com",
             "password": "gisele123"
         }
+    ],
+    "current_user":
+    [
+        {
+            "id": 1,
+            "name": "Arthur Basílio",
+            "username": "arthur",
+            "email": "arthur@email.com",
+            "password": "arthur123"
+        }
     ], 
     "arthur": 
     {   "sent": 
