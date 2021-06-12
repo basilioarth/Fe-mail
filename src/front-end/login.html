@@ -1,10 +1,10 @@
 <html lang="en"> 
-  </head>
   <body>
     <div id="snippetContent">
-        <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" wfd-invisible="true">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" wfd-invisible="true"></script>
         <script src="https://netdna.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" wfd-invisible="true"></script>
+        <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" wfd-invisible="true">
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" wfd-invisible="true">
     <div class="container">
         <div class="row justify-content-center">
@@ -114,3 +114,31 @@
         width: 100%;
     }
     </style>
+    <script>
+    function callAPI(){
+        const xhr = new XMLHttpRequest();
+        xhr.withCredentials = false;
+
+        xhr.addEventListener("readystatechange", function () {
+        if (this.readyState === this.DONE) {
+            callBackFunction(JSON.parse(this.responseText));
+        }
+        });
+        
+        xhr.open("GET", "http://127.0.0.1:3000/user?name=gisele");
+        xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+        xhr.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+        xhr.setRequestHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers');
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.setRequestHeader("Accept", "application/json");
+        xhr.send("algo");
+    }
+
+    function callBackFunction(response){
+    console.log(response)
+    }
+
+    callAPI()
+    </script>
+  </body>
+</html>
