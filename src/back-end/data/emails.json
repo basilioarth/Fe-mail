@@ -31,18 +31,18 @@
         [
             {
                 "id": 1,
-                "sender": "arthur",
+                "sender": "Arthur Basílio",
                 "addressee": "gisele",
-                "subject": "Assunto 1 - arthur",
-                "body": "Texto 1 - arthur",
+                "subject": "Lorem ipsum dolor sit amet consectetur adipiscing elit in posuere",
+                "body": "Lorem ipsum dolor sit amet consectetur adipiscing elit habitant per ridiculus suscipit aliquam varius dignissim ac justo turpis nulla condimentum diam penatibus lobortis taciti senectus magnis litora massa cubilia aptent tortor gravida ante himenaeos libero posuere facilisis hac rhoncus molestie tempor arcu viverra euismod hendrerit sollicitudin inceptos bibendum fermentum tempus suspendisse malesuada vivamus montes quisque ultricies fringilla faucibus aliquet ullamcorper",
                 "type": "sent"
             },
             {
                 "id": 2,
-                "sender": "arthur",
+                "sender": "Arthur Basílio",
                 "addressee": "gisele",
-                "subject": "Assunto 2 - arthur",
-                "body": "Texto 2 - arthur",
+                "subject": "Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
+                "body": "lorem ipsum dolor sit amet consectetur adipiscing elit ut mollis hac curae congue condimentum vel cursus consequat tincidunt fermentum aptent integer pellentesque eros quam interdum placerat dis tempor lacus phasellus suscipit ullamcorper mus nullam netus magna metus ante lacinia posuere",
                 "type": "sent"
             }
         ],
@@ -50,10 +50,10 @@
         [
             {
                 "id": 1,
-                "sender": "gisele",
+                "sender": "Gisele Ribeiro",
                 "addressee": "arthur",
-                "subject": "Assunto 1 - gisele",
-                "body": "Texto 1 - gisele",
+                "subject": "Lorem ipsum dolor sit amet consectetur adipiscing elit tristique odio",
+                "body": "Lorem ipsum dolor sit amet consectetur adipiscing elit accumsan vehicula tellus imperdiet lacinia odio maecenas a pharetra interdum sagittis nisl leo nam dictum orci nascetur posuere consequat egestas netus sociosqu",
                 "type": "sent"
             }
         ]
@@ -63,10 +63,10 @@
         [
             {
                 "id": 1,
-                "sender": "gisele",
+                "sender": "Gisele Ribeiro",
                 "addressee": "arthur",
-                "subject": "Assunto 1 - gisele",
-                "body": "Texto 1 - gisele",
+                "subject": "Lorem ipsum dolor sit amet consectetur adipiscing elit tristique odio",
+                "body": "Lorem ipsum dolor sit amet consectetur adipiscing elit accumsan vehicula tellus imperdiet lacinia odio maecenas a pharetra interdum sagittis nisl leo nam dictum orci nascetur posuere consequat egestas netus sociosqu",
                 "type": "sent"
             }
         ],
@@ -74,18 +74,18 @@
         [
             {
                 "id": 1,
-                "sender": "arthur",
+                "sender": "Arthur Basílio",
                 "addressee": "gisele",
-                "subject": "Assunto 1 - arthur",
-                "body": "Texto 1 - arthur",
+                "subject": "Lorem ipsum dolor sit amet consectetur adipiscing elit in posuere",
+                "body": "lorem ipsum dolor sit amet consectetur adipiscing elit habitant per ridiculus suscipit aliquam varius dignissim ac justo turpis nulla condimentum diam penatibus lobortis taciti senectus magnis litora massa cubilia aptent tortor gravida ante himenaeos libero posuere facilisis hac rhoncus molestie tempor arcu viverra euismod hendrerit sollicitudin inceptos bibendum fermentum tempus suspendisse malesuada vivamus montes quisque ultricies fringilla faucibus aliquet ullamcorper",
                 "type": "sent"
             },
             {
                 "id": 2,
-                "sender": "arthur",
+                "sender": "Arthur Basílio",
                 "addressee": "gisele",
-                "subject": "Assunto 2 - arthur",
-                "body": "Texto 2 - arthur",
+                "subject": "Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
+                "body": "Lorem ipsum dolor sit amet consectetur adipiscing elit ut mollis hac curae congue condimentum vel cursus consequat tincidunt fermentum aptent integer pellentesque eros quam interdum placerat dis tempor lacus phasellus suscipit ullamcorper mus nullam netus magna metus ante lacinia posuere",
                 "type": "sent"
             }
         ]
