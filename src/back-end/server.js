@@ -13,9 +13,12 @@ module.exports = http.createServer((req, res) => {
     if (req.method === "OPTIONS") {
         res.writeHead(204, headers);
         res.end();
-      } else if(reqUrl.pathname == '/user' && req.method === 'GET'){
+    } else if(reqUrl.pathname == '/user' && req.method === 'GET'){
         console.log('Request Type: ' + req.method + ' Endpoint: ' + reqUrl.pathname);
         service.getUser(req, res, headers);
+    } else if(reqUrl.pathname == '/currentuser' && req.method === 'GET'){
+        console.log('Request Type: ' + req.method + ' Endpoint: ' + reqUrl.pathname);
+        service.getCurrentUser(res, headers);
     } else if(reqUrl.pathname == '/emails' && req.method === 'GET'){
         console.log('Request Type: ' + req.method + ' Endpoint: ' + reqUrl.pathname);
         service.getAllUserEmails(req, res, headers);
@@ -28,6 +31,9 @@ module.exports = http.createServer((req, res) => {
     } else if(reqUrl.pathname == '/email' && req.method === 'GET'){
         console.log('Request Type: ' + req.method + ' Endpoint: ' + reqUrl.pathname);
         service.getUserEmail(req, res, headers); 
+    } else if(reqUrl.pathname == '/currentuser' && req.method === 'POST'){
+        console.log('Request Type: ' + req.method + ' Endpoint: ' + reqUrl.pathname);
+        service.setCurrentUser(req, res, headers);
     } else if(reqUrl.pathname == '/send' && req.method === 'POST') {
         console.log('Request Type: ' + req.method + ' Endpoint: ' + reqUrl.pathname);
         service.sendEmail(req, res, headers);

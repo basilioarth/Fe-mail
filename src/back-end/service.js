@@ -1,5 +1,5 @@
 const url = require('url');
-const emails = require('../back-end/data/emails.json');
+const emails = require('./data/emails.json');
 const fs = require('fs');
 
 exports.getUser = function(req, res, headers) {
@@ -21,6 +21,45 @@ exports.getUser = function(req, res, headers) {
         res.end('Invalid-Request');
     }
 };
+
+exports.getCurrentUser = function(res, headers) {
+    var response = emails.current_user;
+
+    if(response && response !== []){
+        res.writeHead(200, headers);
+        res.end(JSON.stringify(response));
+    } else {
+        res.writeHead(404, headers);
+        res.end(JSON.stringify(response));
+    }
+};
+
+exports.setCurrentUser = function(req, res, headers) {
+    body = '';
+
+    req.on('data', function(chunk){
+        body += chunk;
+    });
+
+    req.on('end', function(){
+        postBody = JSON.parse(body);
+
+        emails["current_user"] = {
+            "id": postBody.id,
+            "name": postBody.name,
+            "username": postBody.username,
+            "email": postBody.email,
+            "password": postBody.password,
+        };
+
+        fs.writeFile('./src/back-end/data/emails.json', JSON.stringify(emails), (err) => {
+            if(err) throw err;
+        });
+
+        res.writeHead(200, headers);
+        res.end(JSON.stringify(emails));
+    });
+}
 
 exports.getAllUserEmails = function(req, res, headers) {
     const reqUrl = url.parse(req.url, true);
@@ -125,12 +164,14 @@ exports.sendEmail = function(req, res, headers) {
 
     req.on('end', function(){
         postBody = JSON.parse(body);
+        date = new Date().toLocaleString('en', { timeZone: 'America/Fortaleza' });
 
         length = emails[postBody.sender.toLowerCase()]["sent"].length
         emails[postBody.sender.toLowerCase()]["sent"][length] = {
             "id": length + 1,
             "sender": postBody.sender,
             "addressee": postBody.addressee,
+            "date": date,
             "subject": postBody.subject,
             "body": postBody.body,
             "type": postBody.type
@@ -141,12 +182,13 @@ exports.sendEmail = function(req, res, headers) {
             "id": length + 1,
             "sender": postBody.sender,
             "addressee": postBody.addressee,
+            "date": date,
             "subject": postBody.subject,
             "body": postBody.body,
             "type": postBody.type
         };
 
-        fs.writeFile('./emails.json', JSON.stringify(emails), (err) => {
+        fs.writeFile('./src/back-end/data/emails.json', JSON.stringify(emails), (err) => {
             if(err) throw err;
         });
 
@@ -167,7 +209,7 @@ exports.deleteAllEmails = function(req, res, headers) {
             res.end(JSON.stringify({}));
         } else {
             emails[reqUrl.query.name.toLowerCase()][reqUrl.query.class] = []
-            fs.writeFile('./emails.json', JSON.stringify(emails), (err) => {
+            fs.writeFile('./src/back-end/data/emails.json', JSON.stringify(emails), (err) => {
                 if(err) throw err;
             });
             res.writeHead(200, headers);
@@ -202,7 +244,7 @@ exports.deleteEmail = function(req, res, headers) {
                 res.end(JSON.stringify({}));
             } else {
                 emails[reqUrl.query.name.toLowerCase()][reqUrl.query.class][cont-1] = {}
-                fs.writeFile('./emails.json', JSON.stringify(emails), (err) => {
+                fs.writeFile('./src/back-end/data/emails.json', JSON.stringify(emails), (err) => {
                     if(err) throw err;
                 });
                 res.writeHead(200, headers);

@@ -43,6 +43,44 @@
         </div>
         </div>
     </div>
+    <script>
+      function callAPI(method, url, data, callBackFunction){
+          const xhr = new XMLHttpRequest();
+          xhr.withCredentials = false;
+
+          xhr.addEventListener("readystatechange", function () {
+          if (this.readyState === this.DONE) {
+              this.status === 200 ? callBackFunction(JSON.parse(this.responseText)) : callBackFunction(undefined);
+          }
+          });
+          
+          xhr.open(method, url);
+          xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+          xhr.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+          xhr.setRequestHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers');
+          xhr.send(data);
+      }
+
+      function login(){
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+
+        callAPI("GET", `http://127.0.0.1:3000/user?username=${username}&password=${password}`, null, handleLogin);
+      }
+
+      function handleLogin(response){
+        if(response !== undefined) {
+            data = JSON.stringify(response[0])
+            callAPI("POST", "http://localhost:3000/currentuser", data, navigateToEmails);
+        } else {
+            alert("Dados nome de usuário ou senha inválidos! Por favor, digite-os novamente.");
+        }
+      }
+
+      function navigateToEmails() {
+        window.location.href = "emails.html"
+      }
+    </script>
     <style type="text/css">
     body{
         margin-top:20px;
@@ -113,35 +151,5 @@
         width: 100%;
     }
     </style>
-    <script>
-    function callAPI(method, url, data, callBackFunction){
-        const xhr = new XMLHttpRequest();
-        xhr.withCredentials = false;
-
-        xhr.addEventListener("readystatechange", function () {
-        if (this.readyState === this.DONE) {
-            this.status === 200 ? callBackFunction(JSON.parse(this.responseText)) : callBackFunction(undefined);
-        }
-        });
-        
-        xhr.open(method, url);
-        xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
-        xhr.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-        xhr.setRequestHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers');
-        xhr.send(data);
-    }
-
-    function login(){
-        var username = document.getElementById("username").value;
-        var password = document.getElementById("password").value;
-
-        callAPI("GET", `http://127.0.0.1:3000/user?username=${username}&password=${password}`, null, handleLogin);
-    }
-
-    function handleLogin(response){
-        response !== undefined ? console.log(response) : alert("Dados nome de usuário ou senha inválidos! Por favor, digite-os novamente.")
-    }
-
-    </script>
   </body>
 </html>
