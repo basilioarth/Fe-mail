@@ -16,6 +16,9 @@ module.exports = http.createServer((req, res) => {
     } else if(reqUrl.pathname == '/user' && req.method === 'GET'){
         console.log('Request Type: ' + req.method + ' Endpoint: ' + reqUrl.pathname);
         service.getUser(req, res, headers);
+    } else if(reqUrl.pathname == '/users' && req.method === 'GET'){
+        console.log('Request Type: ' + req.method + ' Endpoint: ' + reqUrl.pathname);
+        service.getUsers(res, headers);
     } else if(reqUrl.pathname == '/currentuser' && req.method === 'GET'){
         console.log('Request Type: ' + req.method + ' Endpoint: ' + reqUrl.pathname);
         service.getCurrentUser(res, headers);

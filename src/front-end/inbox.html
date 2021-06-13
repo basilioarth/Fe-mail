@@ -26,10 +26,8 @@
         <div class="panel panel-default">
           <div class="panel-body contacts">
             <a href="#" class="btn btn-success btn-block">Contacts</a>
-            <ul>
-              <li><span class="label label-success"></span> Arthur Basílio (You)</li>
-              <li><span class="label label-success"></span> Gisele Ribeiro</li>
-              <li><span class="label label-success"></span> Wesley Lima</li>
+            <ul id="users-list">
+              
             </ul>
           </div>
         </div>
@@ -61,6 +59,7 @@
     </div>
     <script>
       var context = "inbox";
+      var currentuser = {};
 
       function changeContext() {
         if(context == "inbox") {
@@ -92,7 +91,7 @@
 
       function loadEmails(response) {
         console.log(response);
-
+        currentuser = response;
         if(response !== undefined) {
           context === "inbox" ?
             callAPI("GET", `http://localhost:3000/emails-recieved?name=${response.username}`, null, handleLoadEmails)
@@ -127,6 +126,25 @@
         }
         document.getElementById("messages-list").innerHTML = list;
         //if(context == "inbox") document.getElementById("label label-danger-inbox").innerHTML = response.length;
+        loadUsers();
+      }
+      
+      function loadUsers() {
+        callAPI("GET", "http://localhost:3000/users", null, handleLoadUsers);
+      }
+
+      function handleLoadUsers(response){
+        list = "";
+        for(index = 0; index < response.length; index ++){
+          if(currentuser.id === response[index].id) {
+            list = list +
+            "<li><span class='label label-success'></span> " + response[index].name + " (You)</li>"
+          } else {
+            list = list +
+          "<li><span class='label label-success'></span> " + response[index].name + "</li>"
+          } 
+        }
+        document.getElementById("users-list").innerHTML = list;
       }
       
       identifyCurrentUser();

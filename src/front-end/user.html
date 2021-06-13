@@ -26,8 +26,8 @@
         <div class="panel panel-default">
           <div class="panel-body contacts">
             <a href="#" class="btn btn-success btn-block">Contacts</a>
-            <ul  id="users-list">
-
+            <ul id="users-list">
+              
             </ul>
           </div>
         </div>
@@ -58,7 +58,8 @@
     </div>
     </div>
     <script>
-      var context = "sent";
+      var context = "inbox";
+      var users = [];
       var currentuser = {};
 
       function changeContext() {
@@ -67,6 +68,7 @@
         } else context = "inbox";
         identifyCurrentUser();
       }
+      
       function callAPI(method, url, data, callBackFunction){
         const xhr = new XMLHttpRequest();
         xhr.withCredentials = false;
@@ -125,28 +127,26 @@
         }
         document.getElementById("messages-list").innerHTML = list;
         //if(context == "inbox") document.getElementById("label label-danger-inbox").innerHTML = response.length;
-        loadUsers();
       }
-
+      
       function loadUsers() {
         callAPI("GET", "http://localhost:3000/users", null, handleLoadUsers);
       }
 
       function handleLoadUsers(response){
+        users = [];
         list = "";
         for(index = 0; index < response.length; index ++){
-          if(currentuser.id === response[index].id) {
-            list = list +
-            "<li><span class='label label-success'></span> " + response[index].name + " (You)</li>"
-          } else {
-            list = list +
-          "<li><span class='label label-success'></span> " + response[index].name + "</li>"
-          } 
+          users.push(response[index]);
+          list = list +
+          "<li><span class='label label-success'></span> " + users[index].name + "</li>"
         }
+        console.log(users);
         document.getElementById("users-list").innerHTML = list;
       }
       
       identifyCurrentUser();
+      loadUsers();
     </script>
     <style type="text/css">
       body{margin-top:20px;

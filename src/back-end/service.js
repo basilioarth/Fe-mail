@@ -22,6 +22,29 @@ exports.getUser = function(req, res, headers) {
     }
 };
 
+exports.getUsers = function(res, headers) {
+    //const response = emails["users"]
+    const response = [].concat(emails["users"])
+
+    if(response.length !== 0){
+        /*
+        if(emails["current_user"].length !== 0){
+            for(index = 0; index < response.length; index ++){
+                if(response[index].id === emails['current_user'][0].id){
+                    console.log("Encontramos o current user")
+                    response[index].name = response[index].name + " (You)";
+                }
+            }
+        }
+        */
+        res.writeHead(200, headers);
+        res.end(JSON.stringify(response));
+    } else {
+        res.writeHead(404, headers);
+        res.end('Invalid-Request');
+    }
+};
+
 exports.getCurrentUser = function(res, headers) {
     var response = emails.current_user;
 
