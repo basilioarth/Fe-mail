@@ -3,46 +3,33 @@
     [
         {
             "id": 1,
-            "name": "Arthur Basílio",
-            "username": "arthur",
-            "email": "arthur@email.com",
-            "password": "arthur123"
+            "name": "Festus Bot",
+            "username": "festus",
+            "email": "festus@email.com",
+            "password": "festus123"
         },
         {
             "id": 2,
-            "name": "Gisele Ribeiro",
-            "username": "gisele",
-            "email": "gisele@email.com",
-            "password": "gisele123"
+            "name": "Wesley Lima",
+            "username": "wesley",
+            "email": "wesley@email.com",
+            "password": "wesley123"
         }
     ],
     "current_user":
     {
-        "id": 1,
-        "name": "Arthur Basílio",
-        "username": "arthur",
-        "email": "arthur@email.com",
-        "password": "arthur123"
+        
     }, 
-    "arthur": 
+    "festus@email.com": 
     {   "sent": 
         [
             {
                 "id": 1,
-                "sender": "Arthur Basílio",
-                "addressee": "gisele",
+                "sender": "festus@email.com",
+                "addressee": "wesley@email.com",
                 "date": "6/12/2021, 12:44:07 PM",
-                "subject": "Lorem ipsum dolor sit amet consectetur adipiscing elit in posuere",
-                "body": "Lorem ipsum dolor sit amet consectetur adipiscing elit habitant per ridiculus suscipit aliquam varius dignissim ac justo turpis nulla condimentum diam penatibus lobortis taciti senectus magnis litora massa cubilia aptent tortor gravida ante himenaeos libero posuere facilisis hac rhoncus molestie tempor arcu viverra euismod hendrerit sollicitudin inceptos bibendum fermentum tempus suspendisse malesuada vivamus montes quisque ultricies fringilla faucibus aliquet ullamcorper",
-                "type": "sent"
-            },
-            {
-                "id": 2,
-                "sender": "Arthur Basílio",
-                "addressee": "gisele",
-                "date": "6/12/2021, 12:44:07 PM",
-                "subject": "Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
-                "body": "lorem ipsum dolor sit amet consectetur adipiscing elit ut mollis hac curae congue condimentum vel cursus consequat tincidunt fermentum aptent integer pellentesque eros quam interdum placerat dis tempor lacus phasellus suscipit ullamcorper mus nullam netus magna metus ante lacinia posuere",
+                "subject": "Boas-vindas!",
+                "body": "Seja bem-vindo à aplicação e-mail do festus-bot. Explicação sobre como a aplicação funciona.",
                 "type": "sent"
             }
         ],
@@ -50,8 +37,8 @@
         [
             {
                 "id": 1,
-                "sender": "Gisele Ribeiro",
-                "addressee": "arthur",
+                "sender": "wesley@email.com",
+                "addressee": "festus@email.com",
                 "date": "6/12/2021, 12:44:07 PM",
                 "subject": "Lorem ipsum dolor sit amet consectetur adipiscing elit tristique odio",
                 "body": "Lorem ipsum dolor sit amet consectetur adipiscing elit accumsan vehicula tellus imperdiet lacinia odio maecenas a pharetra interdum sagittis nisl leo nam dictum orci nascetur posuere consequat egestas netus sociosqu",
@@ -59,13 +46,13 @@
             }
         ]
     },
-    "gisele": 
+    "wesley@email.com": 
     {   "sent":
         [
             {
                 "id": 1,
-                "sender": "Gisele Ribeiro",
-                "addressee": "arthur",
+                "sender": "wesley@email.com",
+                "addressee": "festus@email.com",
                 "date": "6/12/2021, 12:44:07 PM",
                 "subject": "Lorem ipsum dolor sit amet consectetur adipiscing elit tristique odio",
                 "body": "Lorem ipsum dolor sit amet consectetur adipiscing elit accumsan vehicula tellus imperdiet lacinia odio maecenas a pharetra interdum sagittis nisl leo nam dictum orci nascetur posuere consequat egestas netus sociosqu",
@@ -76,20 +63,11 @@
         [
             {
                 "id": 1,
-                "sender": "Arthur Basílio",
-                "addressee": "gisele",
+                "sender": "festus@email.com",
+                "addressee": "wesley@email.com",
                 "date": "6/12/2021, 12:44:07 PM",
-                "subject": "Lorem ipsum dolor sit amet consectetur adipiscing elit in posuere",
-                "body": "lorem ipsum dolor sit amet consectetur adipiscing elit habitant per ridiculus suscipit aliquam varius dignissim ac justo turpis nulla condimentum diam penatibus lobortis taciti senectus magnis litora massa cubilia aptent tortor gravida ante himenaeos libero posuere facilisis hac rhoncus molestie tempor arcu viverra euismod hendrerit sollicitudin inceptos bibendum fermentum tempus suspendisse malesuada vivamus montes quisque ultricies fringilla faucibus aliquet ullamcorper",
-                "type": "sent"
-            },
-            {
-                "id": 2,
-                "sender": "Arthur Basílio",
-                "addressee": "gisele",
-                "date": "6/12/2021, 12:44:07 PM",
-                "subject": "Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
-                "body": "Lorem ipsum dolor sit amet consectetur adipiscing elit ut mollis hac curae congue condimentum vel cursus consequat tincidunt fermentum aptent integer pellentesque eros quam interdum placerat dis tempor lacus phasellus suscipit ullamcorper mus nullam netus magna metus ante lacinia posuere",
+                "subject": "Boas-vindas!",
+                "body": "Seja bem-vindo à aplicação e-mail do festus-bot. Explicação sobre como a aplicação funciona.",
                 "type": "sent"
             }
         ]
