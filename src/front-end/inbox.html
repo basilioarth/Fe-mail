@@ -106,9 +106,10 @@
         console.log(response);
         list = "";
         for(index = 0; index < response.length; index ++) {
+          id = `"message-inbox-${index}"`
           list = list +
-          "<li class='unread'>" +
-            "<a href='page-inbox-message.html'>" +
+          `<li id='${id}' class='unread'>` +
+            `<a href='#' onclick='teste(${id})'>` +
               "<div class='header'>" +
                 "<span class='action'><i class='fa fa-square-o'></i><i class='fa fa-square'></i></span>" +
                 "<span class='from'>" + response[index].sender + "</span>" +
@@ -129,6 +130,10 @@
         loadUsers();
       }
       
+      function teste(id){
+      console.log(document.getElementById(`"${id}"`))
+      }
+
       function loadUsers() {
         callAPI("GET", "http://localhost:3000/users", null, handleLoadUsers);
       }
