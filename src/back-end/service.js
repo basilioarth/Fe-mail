@@ -46,33 +46,6 @@ exports.getCurrentUser = function(res, headers) {
     }
 };
 
-exports.setCurrentUser = function(req, res, headers) {
-    body = '';
-
-    req.on('data', function(chunk){
-        body += chunk;
-    });
-
-    req.on('end', function(){
-        postBody = JSON.parse(body);
-
-        emails["current_user"] = {
-            "id": postBody.id,
-            "name": postBody.name,
-            "username": postBody.username,
-            "email": postBody.email,
-            "password": postBody.password,
-        };
-
-        fs.writeFile('./src/back-end/data/emails.json', JSON.stringify(emails), (err) => {
-            if(err) throw err;
-        });
-
-        res.writeHead(200, headers);
-        res.end(JSON.stringify(emails));
-    });
-}
-
 exports.getAllUserEmails = function(req, res, headers) {
     const reqUrl = url.parse(req.url, true);
 
@@ -106,7 +79,7 @@ exports.getAllSendedEmails = function(req, res, headers) {
             res.end(JSON.stringify([]));
         } else {
             res.writeHead(200, headers);
-            res.end(JSON.stringify(response["sent"]));
+            res.end(JSON.stringify(response["sent"].reverse()));
         }
     } else {
         res.writeHead(400, headers);
@@ -128,7 +101,7 @@ exports.getAllRecievedEmails = function(req, res, headers) {
             res.end(JSON.stringify([]));
         } else {
             res.writeHead(200, headers);
-            res.end(JSON.stringify(response["inbox"]));
+            res.end(JSON.stringify(response["inbox"].reverse()));
         }
     } else {
         res.writeHead(400, headers);
@@ -166,6 +139,33 @@ exports.getUserEmail = function(req, res, headers) {
         res.end('Invalid-Request');
     }
 };
+
+exports.setCurrentUser = function(req, res, headers) {
+    body = '';
+
+    req.on('data', function(chunk){
+        body += chunk;
+    });
+
+    req.on('end', function(){
+        postBody = JSON.parse(body);
+
+        emails["current_user"] = {
+            "id": postBody.id,
+            "name": postBody.name,
+            "username": postBody.username,
+            "email": postBody.email,
+            "password": postBody.password,
+        };
+
+        fs.writeFile('./src/back-end/data/emails.json', JSON.stringify(emails), (err) => {
+            if(err) throw err;
+        });
+
+        res.writeHead(200, headers);
+        res.end(JSON.stringify(emails));
+    });
+}
 
 exports.sendEmail = function(req, res, headers) {
     body = '';

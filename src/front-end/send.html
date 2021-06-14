@@ -27,10 +27,8 @@
             <div class="panel panel-default">
               <div class="panel-body contacts">
                 <a href="#" class="btn btn-success btn-block">Contacts</a>
-                <ul>
-                  <li><span class="label label-success"></span> Arthur Basílio (You)</li>
-                  <li><span class="label label-success"></span> Gisele Ribeiro</li>
-                  <li><span class="label label-success"></span> Wesley Lima</li>
+                <ul id="users-list">
+                  
                 </ul>
               </div>
             </div>
@@ -62,8 +60,8 @@
                   </div>
                   
                   <div class="form-group">
-                    <button type="submit" class="btn btn-success">Send</button>
-                    <button type="submit" class="btn btn-danger">Discard</button>
+                    <button type="submit" class="btn btn-success" onclick="sendEmail()">Send</button>
+                    <a href="inbox.html"><button type="submit" class="btn btn-danger">Discard</button></a>
                   </div>
                 </div>
 
@@ -73,6 +71,88 @@
 
     </div>
     </div>
+    <script>
+      var currentuser = {};
+      
+      function callAPI(method, url, data, callBackFunction){
+        const xhr = new XMLHttpRequest();
+        xhr.withCredentials = false;
+
+        xhr.addEventListener("readystatechange", function () {
+        if (this.readyState === this.DONE) {
+            this.status === 200 ? callBackFunction(JSON.parse(this.responseText)) : callBackFunction(undefined);
+        }
+        });
+        
+        xhr.open(method, url);
+        xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+        xhr.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+        xhr.setRequestHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers');
+        xhr.send(data);
+      }
+
+      function identifyCurrentUser() {
+        callAPI("GET", "http://localhost:3000/currentuser", null, setCurrentUser);
+      }
+
+      function setCurrentUser(response) {
+        console.log("Current User: ")
+        console.log(response);
+        currentuser = response;
+
+        loadUsers();
+      }
+      
+      function loadUsers() {
+        callAPI("GET", "http://localhost:3000/users", null, handleLoadUsers);
+      }
+
+      function handleLoadUsers(response){
+        list = "";
+        console.log("All Users: ");
+        console.log(response);
+        for(index = 0; index < response.length; index ++){
+          console.log(currentuser)
+          console.log(response[index])
+          if(currentuser.id === response[index].id) {
+            list = list +
+            "<li><span class='label label-success'></span> " + response[index].name + " (You)</li>"
+          } else {
+            list = list +
+          "<li><span class='label label-success'></span> " + response[index].name + "</li>"
+          } 
+        }
+        document.getElementById("users-list").innerHTML = list;
+      }
+      
+      identifyCurrentUser();
+
+      function sendEmail() {
+        const email = document.getElementById("to").value;
+        const subject = document.getElementById("cc").value;
+        const body = document.getElementById("message").value;
+
+        data = JSON.stringify({
+          sender: currentuser.email,
+          addressee: email,
+          subject: subject,
+          body: body,
+          type: "sent"
+        });
+
+        console.log("E-mail a ser enviado: ")
+        console.log(data);
+
+        callAPI("POST", "http://localhost:3000/send", data, handleSendEmail);
+
+      }
+
+      function handleSendEmail(response) {
+        console.log(response);
+        window.location.href = "sent.html"
+      }
+
+    </script>
     <style type="text/css">
       body {
         margin-top:20px;

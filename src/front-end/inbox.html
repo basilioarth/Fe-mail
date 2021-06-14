@@ -94,9 +94,9 @@
         currentuser = response;
         if(response !== undefined) {
           context === "inbox" ?
-            callAPI("GET", `http://localhost:3000/emails-recieved?name=${response.username}`, null, handleLoadEmails)
+            callAPI("GET", `http://localhost:3000/emails-recieved?email=${response.email}`, null, handleLoadEmails)
           :
-            callAPI("GET", `http://localhost:3000/emails-sended?name=${response.username}`, null, handleLoadEmails)
+            callAPI("GET", `http://localhost:3000/emails-sended?email=${response.email}`, null, handleLoadEmails)
         } else {
           alert("Erro ao carregar os emails desse usuário");
         }
@@ -111,15 +111,15 @@
             "<a href='page-inbox-message.html'>" +
               "<div class='header'>" +
                 "<span class='action'><i class='fa fa-square-o'></i><i class='fa fa-square'></i></span>" +
-                "<span class='from'>" + response[0].sender + "</span>" +
-                "<span class='date'><span class='fa fa-paper-clip'></span>" + response[0].date + "</span>" +
+                "<span class='from'>" + response[index].sender + "</span>" +
+                "<span class='date'><span class='fa fa-paper-clip'></span>" + response[index].date + "</span>" +
               "</div>" +
               "<div class='title'>" +
                 "<span class='action'><i class='fa fa-star-o'></i><i class='fa fa-star bg'></i></span>" 
-                + response[0].subject +
+                + response[index].subject +
               "</div>" +
               "<div class='description'>" 
-                + response[0].body + 
+                + response[index].body + 
               "</div>" +
             "</a>" +	
           "</li>"
