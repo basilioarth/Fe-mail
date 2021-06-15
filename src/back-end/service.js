@@ -79,7 +79,7 @@ exports.getAllSendedEmails = function(req, res, headers) {
             res.end(JSON.stringify([]));
         } else {
             res.writeHead(200, headers);
-            res.end(JSON.stringify(response["sent"].reverse()));
+            res.end(JSON.stringify(response["sent"]));
         }
     } else {
         res.writeHead(400, headers);
@@ -101,7 +101,7 @@ exports.getAllRecievedEmails = function(req, res, headers) {
             res.end(JSON.stringify([]));
         } else {
             res.writeHead(200, headers);
-            res.end(JSON.stringify(response["inbox"].reverse()));
+            res.end(JSON.stringify(response["inbox"]));
         }
     } else {
         res.writeHead(400, headers);
