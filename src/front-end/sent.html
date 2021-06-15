@@ -38,14 +38,8 @@
         <div class="panel panel-default">
           <div class="panel-body">
             <span class="btn-group">
-                <button class="btn btn-default"><span class="fa fa-star-o"></span></button>
-                <button class="btn btn-default"><span class="fa fa-bookmark-o"></span></button>
-                <button class="btn btn-default"><span class="fa fa-trash-o"></span></button>
-            </span>
-
-            <span class="btn-group pull-right">
-                <button class="btn btn-default"><span class="fa fa-chevron-left"></span></button>
-                <button class="btn btn-default"><span class="fa fa-chevron-right"></span></button>
+              <button class="btn btn-default"><span class="fa fa-inbox"></span> Inbox </button>
+              <button class="btn btn-default"><span class="fa fa-rocket"></span> Sent </button>
             </span>
 
             <ul id = "messages-list" class="messages-list">
@@ -114,12 +108,12 @@
             `<li id=${index} class='unread'>` +
               `<a href='#' onclick='navigateToMessage(${index})'>` +
                 "<div class='header'>" +
-                  "<span class='action'><i class='fa fa-square-o'></i><i class='fa fa-square'></i></span>" +
+                  "<span class='action'></span>" +
                   "<span class='from'>" + response[index].sender + "</span>" +
                   "<span class='date'><span class='fa fa-paper-clip'></span>" + response[index].date + "</span>" +
                 "</div>" +
                 "<div class='title'>" +
-                  "<span class='action'><i class='fa fa-star-o'></i><i class='fa fa-star bg'></i></span>" 
+                  "<span class='action'></span>" 
                   + response[index].subject +
                 "</div>" +
                 "<div class='description'>" 
