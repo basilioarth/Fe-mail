@@ -12,22 +12,16 @@
           <div class="col-md-3">
             <div class="panel panel-default">
               <div class="panel-body inbox-menu">						
-                <a href="#page-inbox-compose.html" class="btn btn-danger btn-block">New Email</a>
+                <a href="#" class="btn btn-danger btn-block">New Email</a>
                 <ul>
                   <li>
-                    <a href="#page-inbox.html"><i class="fa fa-inbox"></i> Inbox <span class="label label-danger">4</span></a>
+                    <a href="inbox.html"><i class="fa fa-inbox"></i> Inbox </a>
                   </li>
                   <li>
-                    <a href="#"><i class="fa fa-star"></i> Stared</a>
+                    <a href="sent.html"><i class="fa fa-rocket"></i> Sent </a>
                   </li>
                   <li>
-                    <a href="#"><i class="fa fa-rocket"></i> Sent</a>
-                  </li>
-                  <li>
-                    <a href="#"><i class="fa fa-trash-o"></i> Trash</a>
-                  </li>
-                  <li>
-                    <a href="#"><i class="fa fa-bookmark"></i> Important<span class="label label-info">5</span></a>
+                    <a href="login.html"><i class="fa fa-close"></i> Log out</a>
                   </li>
                 </ul>
               </div>	
@@ -36,10 +30,8 @@
             <div class="panel panel-default">
               <div class="panel-body contacts">
                 <a href="#" class="btn btn-success btn-block">Contacts</a>
-                <ul>
-                  <li><span class="label label-success"></span> Arthur Basílio (You)</li>
-                  <li><span class="label label-success"></span> Gisele Ribeiro</li>
-                  <li><span class="label label-success"></span> Wesley Lima</li>
+                <ul id="users-list">
+                  
                 </ul>
               </div>
             </div>
@@ -53,26 +45,26 @@
                 <form class="form-horizontal" role="form">
                   <div class="form-group">
                     <label for="to" class="col-sm-1 control-label">To:</label>
-                    <div class="col-sm-11">
+                    <div id="div-to" class="col-sm-11">
                       <input type="email" class="form-control select2-offscreen" id="to" placeholder="Type an email" tabindex="-1">
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="cc" class="col-sm-1 control-label">Subject:</label>
-                    <div class="col-sm-11">
+                    <div id="div-cc" class="col-sm-11">
                       <input type="email" class="form-control select2-offscreen" id="cc" placeholder="Type a subject" tabindex="-1">
                     </div>
                   </div>
                 </form>
                 
                 <div class="col-sm-11 col-sm-offset-1" style="padding: 0%;">         	   
-                  <div class="form-group">
+                  <div id="div-message" class="form-group">
                     <textarea class="form-control" id="message" name="body" rows="12" placeholder="Type here your message"></textarea>
                   </div>
                   
                   <div class="form-group">
-                    <button type="submit" class="btn btn-success">Send</button>
-                    <button type="submit" class="btn btn-danger">Discard</button>
+                    <button type="submit" class="btn btn-success" onclick="sendEmail()">Send</button>
+                    <a href="inbox.html"><button type="submit" class="btn btn-danger">Discard</button></a>
                   </div>
                 </div>
 
@@ -82,6 +74,114 @@
 
     </div>
     </div>
+    <script>
+      var currentuser = {};
+      var subject = "";
+      var body = "";
+      var hasParams = false;
+
+      window.onload = function() {
+        
+        if(window.location.search.length !== 0) {
+          hasParams = true;
+          var params = window.location.search.split('&');
+
+          document.getElementById("div-cc").innerHTML =
+          `<input type='email' class='form-control select2-offscreen' id='cc' tabindex='-1' value='${decodeURIComponent(params[0].split('=')[1])}' disabled>`;
+          
+          document.getElementById("div-message").innerHTML =
+          `<textarea class='form-control' id='message' name='body' rows='12' disabled>${decodeURIComponent(params[1].split('=')[1])}</textarea>`;
+        }
+        
+      }
+
+      function callAPI(method, url, data, callBackFunction){
+        const xhr = new XMLHttpRequest();
+        xhr.withCredentials = false;
+
+        xhr.addEventListener("readystatechange", function () {
+        if (this.readyState === this.DONE) {
+            this.status === 200 ? callBackFunction(JSON.parse(this.responseText)) : callBackFunction(undefined);
+        }
+        });
+        
+        xhr.open(method, url);
+        xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+        xhr.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+        xhr.setRequestHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers');
+        xhr.send(data);
+      }
+
+      function identifyCurrentUser() {
+        callAPI("GET", "http://localhost:3000/currentuser", null, setCurrentUser);
+      }
+
+      function setCurrentUser(response) {
+        currentuser = response;
+        loadUsers();
+      }
+      
+      function loadUsers() {
+        callAPI("GET", "http://localhost:3000/users", null, handleLoadUsers);
+      }
+
+      function handleLoadUsers(response){
+        list = "";
+        for(index = 0; index < response.length; index ++){
+          if(currentuser.id === response[index].id) {
+            list = list +
+            "<li><span class='label label-success'></span> " + response[index].name + " (You)</li>"
+          } else {
+            list = list +
+          "<li><span class='label label-success'></span> " + response[index].name + "</li>"
+          } 
+        }
+        document.getElementById("users-list").innerHTML = list;
+      }
+      
+      identifyCurrentUser();
+
+      function sendEmail() {
+        const email = document.getElementById("to").value;
+        const subject = document.getElementById("cc").value;
+        const body = document.getElementById("message").value;
+
+        if(email.length === 0 || subject.length === 0 || body.length === 0) {
+          alert("É preciso preencher todos os campos!");
+        } else {
+          hasParams ?
+          (
+            data = JSON.stringify({
+            sender_name: currentuser.name,
+            sender: currentuser.email,
+            addressee: email,
+            subject: subject,
+            body: body,
+            type: "forward"
+          })
+          )
+          :
+          (
+            data = JSON.stringify({
+            sender_name: currentuser.name,
+            sender: currentuser.email,
+            addressee: email,
+            subject: subject,
+            body: body,
+            type: "sent"
+          })
+          )
+
+          callAPI("POST", "http://localhost:3000/send", data, handleSendEmail);
+        }
+
+      }
+
+      function handleSendEmail(response) {
+        window.location.href = "sent.html"
+      }
+
+    </script>
     <style type="text/css">
       body {
         margin-top:20px;
@@ -281,7 +381,6 @@
           display: inline-block;
           width: 29%;
           text-align: right;
-          float: right;
           font-size: 12px;
           margin-top: 18px
       }

@@ -11,22 +11,16 @@
       <div class="col-md-3">
           <div class="panel panel-default">
           <div class="panel-body inbox-menu">
-            <a href="page-inbox-compose.html" class="btn btn-danger btn-block">New Email</a>
+            <a href="send.html" class="btn btn-danger btn-block">New Email</a>
             <ul>
               <li>
-                <a href="#"><i class="fa fa-inbox"></i> Inbox <span class="label label-danger">4</span></a>
+                <a href="inbox.html"><i class="fa fa-inbox"></i> Inbox</a>
               </li>
               <li>
-                <a href="#"><i class="fa fa-star"></i> Stared</a>
+                <a href="sent.html"><i class="fa fa-rocket"></i> Sent</a>
               </li>
               <li>
-                <a href="#"><i class="fa fa-rocket"></i> Sent</a>
-              </li>
-              <li>
-                <a href="#"><i class="fa fa-trash-o"></i> Trash</a>
-              </li>
-              <li>
-                <a href="#"><i class="fa fa-bookmark"></i> Important<span class="label label-info">5</span></a>
+                <a href="login.html"><i class="fa fa-close"></i> Log out</a>
               </li>
             </ul>
           </div>	
@@ -35,10 +29,8 @@
         <div class="panel panel-default">
           <div class="panel-body contacts">
             <a href="#" class="btn btn-success btn-block">Contacts</a>
-            <ul>
-              <li><span class="label label-success"></span> Arthur Basílio (You)</li>
-              <li><span class="label label-success"></span> Gisele Ribeiro</li>
-              <li><span class="label label-success"></span> Wesley Lima</li>
+            <ul id="users-list">
+              
             </ul>
           </div>
         </div>
@@ -50,36 +42,15 @@
           <div class="panel-body">
             <main class="message">
             <div class="toolbar">
-              <div class="btn-group">
-              <!--
-              <button type="button" class="btn btn-light">
-                  <span class="fa fa-star"></span>
+              <div class="btn-group pull-right">
+              <button type="button" class="btn btn-light" onclick="deleteEmail()">
+                <span class="fa fa-trash-o" style="color: red;"></span>
               </button>
-              -->
-              <button type="button" class="btn btn-light">
-                  <span class="fa fa-star-o"></span>
-              </button>
-              <button type="button" class="btn btn-light">
-                  <span class="fa fa-bookmark-o"></span>
-              </button>
-              <button type="button" class="btn btn-light">
-              <span class="fa fa-trash-o"></span>
               </div>
             </div>
             <div class="details">
-                <div class="title">Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.</div>
-                <div class="header">
-                  <div class="from">
-                      <span>Lukasz Holeczek</span>
-                      lukasz@bootstrapmaster.com
-                  </div>
-                  <div class="date">Today, <b>3:47 PM</b></div>
-                </div>
-                <div class="content">
-                  <blockquote>
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                      in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                  </blockquote>
+                <div id="email-details">
+                  
                 </div>
                 
                 <form method="post" action="">
@@ -87,8 +58,8 @@
                       <textarea class="form-control" id="message" name="body" rows="12" placeholder="Type here to reply"></textarea>
                   </div>
                   <div class="form-group">
-                      <button tabindex="3" type="submit" class="btn btn-success">Reply message</button>
-                      <button tabindex="3" type="submit" class="btn btn-success">Forward</button>
+                      <button tabindex="3" type="button" class="btn btn-success" onclick="replyMessage()">Reply message</button>
+                      <button tabindex="3" type="button" class="btn btn-success" onclick="forwardMessage()">Forward</button>
                   </div>
                 </form>
             </div>
@@ -100,6 +71,159 @@
     </div>
 
     </div>
+    <script>
+      var currentuser = {};
+      var currentemail = {};
+      var id = 0;
+      var type = '';
+
+      window.onload = function() {
+        var params = window.location.search.split('&');
+        id = decodeURIComponent(params[0].split('=')[1]);
+        type = decodeURIComponent(params[1].split('=')[1]);
+      }
+
+      function callAPI(method, url, data, callBackFunction){
+        const xhr = new XMLHttpRequest();
+        xhr.withCredentials = false;
+
+        xhr.addEventListener("readystatechange", function () {
+        if (this.readyState === this.DONE) {
+            this.status === 200 ? callBackFunction(JSON.parse(this.responseText)) : callBackFunction(undefined);
+        }
+        });
+        
+        xhr.open(method, url);
+        xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+        xhr.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+        xhr.setRequestHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers');
+        xhr.send(data);
+      }
+
+      function identifyCurrentUser() {
+        callAPI("GET", "http://localhost:3000/currentuser", null, setCurrentUser);
+      }
+
+      function setCurrentUser(response) {
+        currentuser = response;
+        loadUsers();
+      }
+      
+      function loadUsers() {
+        callAPI("GET", "http://localhost:3000/users", null, handleLoadUsers);
+      }
+
+      function handleLoadUsers(response){
+        list = "";
+        for(index = 0; index < response.length; index ++){
+          if(currentuser.id === response[index].id) {
+            list = list +
+            "<li><span class='label label-success'></span> " + response[index].name + " (You)</li>"
+          } else {
+            list = list +
+          "<li><span class='label label-success'></span> " + response[index].name + "</li>"
+          } 
+        }
+        document.getElementById("users-list").innerHTML = list;
+
+        loadMessage()
+      }
+
+      function loadMessage(){
+        callAPI("GET", `http://localhost:3000/email?email=${currentuser.email}&id=${id}&class=${type}`, null, handleLoadMessage)
+      }
+
+      function handleLoadMessage(response) {
+        currentemail = response;
+  
+        if(response[0].type === "reply") {
+          message = 
+          `<div class='title' style='padding-top: 20px; margin-top: 10px;'>re: ${response[0].subject}</div>` +
+          "<div class='header'>" +
+            "<div class='from'>" +
+                `<span>${response[0].sender_name}</span>` +
+                `${response[0].sender} <i class='fa fa-arrow-right'></i> ${response[0].addressee}` +
+            "</div>" +
+            `<div class='date'><b>${response[0].date}</b></div>` +
+          "</div>" +
+          "<div class='content'>" +
+            "<blockquote>" +
+                `${response[0].body}` +
+            "</blockquote>" +
+          "</div>";
+        } else if(response[0].type === "forward") {
+          message = 
+          `<div class='title' style='padding-top: 20px; margin-top: 10px;'>fwd: ${response[0].subject}</div>` +
+          "<div class='header'>" +
+            "<div class='from'>" +
+                `<span>${response[0].sender_name}</span>` +
+                `${response[0].sender} <i class='fa fa-arrow-right'></i> ${response[0].addressee}` +
+            "</div>" +
+            `<div class='date'><b>${response[0].date}</b></div>` +
+          "</div>" +
+          "<div class='content'>" +
+            "<blockquote>" +
+                `${response[0].body}` +
+            "</blockquote>" +
+          "</div>";
+        } else {
+          message = 
+          `<div class='title' style='padding-top: 20px; margin-top: 10px;'>${response[0].subject}</div>` +
+          "<div class='header'>" +
+            "<div class='from'>" +
+                `<span>${response[0].sender_name}</span>` +
+                `${response[0].sender} <i class='fa fa-arrow-right'></i> ${response[0].addressee}` +
+            "</div>" +
+            `<div class='date'><b>${response[0].date}</b></div>` +
+          "</div>" +
+          "<div class='content'>" +
+            "<blockquote>" +
+                `${response[0].body}` +
+            "</blockquote>" +
+          "</div>";
+        }
+
+        document.getElementById("email-details").innerHTML = message;
+      }
+
+      function replyMessage() {
+        var message = document.getElementById("message").value;
+
+        if(message.length === 0) {
+          alert("É preciso preencher o campo de corpo da mensagem!");
+        } else {
+          data = JSON.stringify({
+          sender_name: currentuser.name,
+          sender: currentuser.email,
+          addressee: currentemail[0].sender,
+          subject: currentemail[0].subject,
+          body: message,
+          type: "reply"
+          });
+          
+          callAPI("POST", "http://localhost:3000/send", data, handleReplyEmail);
+        }
+      }
+
+      function handleReplyEmail(response) {
+        window.location.href = "sent.html"
+      }
+
+      function forwardMessage() {
+        var url = "send.html?subject=" + encodeURIComponent(currentemail[0].subject) + "&body=" + encodeURIComponent(currentemail[0].body);
+        window.location.href = url;
+      }
+
+      function deleteEmail(){
+        callAPI("DELETE", `http://localhost:3000/delete?email=${currentuser.email}&id=${currentemail[0].id}&class=${type}`, null, handleDeleteEmail)
+      }
+      
+      function handleDeleteEmail(response) {
+        window.location.href = `${type}.html`;
+      }
+
+      identifyCurrentUser();
+    </script>
     <style type="text/css">
       body{
         margin-top:20px;
@@ -192,7 +316,6 @@
           display: inline-block;
           width: 29%;
           text-align: right;
-          float: right;
           font-size: 12px;
           margin-top: 18px
       }

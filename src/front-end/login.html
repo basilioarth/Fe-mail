@@ -16,15 +16,15 @@
                 <p class="text-muted">Sign In to your account</p>
                 <div class="input-group mb-3">
                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                    <input type="text" class="form-control" placeholder="Username">
+                    <input id="email" type="text" class="form-control" placeholder="email">
                 </div>
                 <div class="input-group mb-4">
                     <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                    <input type="password" class="form-control" placeholder="Password">
+                    <input id="password" type="password" class="form-control" placeholder="Password">
                 </div>
                 <div class="row">
                     <div class="col-6">
-                    <button type="button" class="btn btn-primary px-4">Login</button>
+                    <button type="button" class="btn btn-primary px-4" onclick="login()">Login</button>
                     </div>
                 </div>
                 </div>
@@ -43,9 +43,47 @@
         </div>
         </div>
     </div>
+    <script>
+      function callAPI(method, url, data, callBackFunction){
+          const xhr = new XMLHttpRequest();
+          xhr.withCredentials = false;
+
+          xhr.addEventListener("readystatechange", function () {
+          if (this.readyState === this.DONE) {
+              this.status === 200 ? callBackFunction(JSON.parse(this.responseText)) : callBackFunction(undefined);
+          }
+          });
+          
+          xhr.open(method, url);
+          xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+          xhr.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+          xhr.setRequestHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers');
+          xhr.send(data);
+      }
+
+      function login(){
+        var email = document.getElementById("email").value;
+        var password = document.getElementById("password").value;
+
+        callAPI("GET", `http://127.0.0.1:3000/user?email=${email}&password=${password}`, null, handleLogin);
+      }
+
+      function handleLogin(response){
+        if(response !== undefined) {
+            data = JSON.stringify(response[0])
+            callAPI("POST", "http://localhost:3000/currentuser", data, navigateToEmails);
+        } else {
+            alert("Dados nome de usuário ou senha inválidos! Por favor, digite-os novamente.");
+        }
+      }
+
+      function navigateToEmails() {
+        window.location.href = "inbox.html"
+      }
+    </script>
     <style type="text/css">
-        body{
-        margin-top:20px;
+    body{
+        margin-top:25vh;
         background:#eee;
     }
     .container {
@@ -80,8 +118,6 @@
         }
     }
 
-
-
     .card-columns .card {
         margin-bottom: 0.75rem;
     }
@@ -96,6 +132,7 @@
             width: 100%;
         }
     }
+
     .text-muted {
         color: #9faecb !important;
     }
@@ -114,31 +151,5 @@
         width: 100%;
     }
     </style>
-    <script>
-    function callAPI(){
-        const xhr = new XMLHttpRequest();
-        xhr.withCredentials = false;
-
-        xhr.addEventListener("readystatechange", function () {
-        if (this.readyState === this.DONE) {
-            callBackFunction(JSON.parse(this.responseText));
-        }
-        });
-        
-        xhr.open("GET", "http://127.0.0.1:3000/user?name=gisele");
-        xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
-        xhr.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-        xhr.setRequestHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers');
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.setRequestHeader("Accept", "application/json");
-        xhr.send("algo");
-    }
-
-    function callBackFunction(response){
-    console.log(response)
-    }
-
-    callAPI()
-    </script>
   </body>
 </html>
