@@ -1,101 +1,82 @@
-<html lang="en"> 
-  </head>
+<html lang="en">
   <body>
     <div id="snippetContent">
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> 
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script> 
-      <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+      <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> 
       <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-      <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> 
-      <div class="container">
-        <div class="row inbox">
-          <div class="col-md-3">
-            <div class="panel panel-default">
-              <div class="panel-body inbox-menu">						
-                <a href="#" class="btn btn-danger btn-block">New Email</a>
-                <ul>
-                  <li>
-                    <a href="inbox.html"><i class="fa fa-inbox"></i> Inbox </a>
-                  </li>
-                  <li>
-                    <a href="sent.html"><i class="fa fa-rocket"></i> Sent </a>
-                  </li>
-                  <li>
-                    <a href="login.html"><i class="fa fa-close"></i> Log out</a>
-                  </li>
-                </ul>
-              </div>	
-            </div>
+      <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">  
+    <div class="container">
+    <div class="row inbox">
+      <div class="col-md-3">
+          <div class="panel panel-default">
+          <div class="panel-body inbox-menu">
+            <a href="send.html" class="btn btn-danger btn-block">New Email</a>
+            <ul>
+              <li>
+                <a href="#" onclick="changeContext('inbox')"><i class="fa fa-inbox"></i> Inbox </a>
+              </li>
+              <li>
+                <a href="#" onclick="changeContext('sent')"><i class="fa fa-rocket"></i> Sent</a>
+              </li>
+              <li>
+                <a href="login.html"><i class="fa fa-close"></i> Log out</a>
+              </li>
+            </ul>
+          </div>	
+        </div>
+        
+        <div class="panel panel-default">
+          <div class="panel-body contacts">
+            <a href="#" class="btn btn-success btn-block">Contacts</a>
+            <ul  id="users-list">
 
-            <div class="panel panel-default">
-              <div class="panel-body contacts">
-                <a href="#" class="btn btn-success btn-block">Contacts</a>
-                <ul id="users-list">
-                  
-                </ul>
-              </div>
-            </div>
+            </ul>
+          </div>
+        </div>
 
-          </div><!--/.col-md-3-->
-          
-          <div class="col-md-9">
-            <div class="panel panel-default">
-              <div class="panel-body message">
-                <p class="text-center">New Message</p>
-                <form class="form-horizontal" role="form">
-                  <div class="form-group">
-                    <label for="to" class="col-sm-1 control-label">To:</label>
-                    <div id="div-to" class="col-sm-11">
-                      <input type="email" class="form-control select2-offscreen" id="to" placeholder="Type an email" tabindex="-1">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="cc" class="col-sm-1 control-label">Subject:</label>
-                    <div id="div-cc" class="col-sm-11">
-                      <input type="email" class="form-control select2-offscreen" id="cc" placeholder="Type a subject" tabindex="-1">
-                    </div>
-                  </div>
-                </form>
-                
-                <div class="col-sm-11 col-sm-offset-1" style="padding: 0%;">         	   
-                  <div id="div-message" class="form-group">
-                    <textarea class="form-control" id="message" name="body" rows="12" placeholder="Type here your message"></textarea>
-                  </div>
-                  
-                  <div class="form-group">
-                    <button type="submit" class="btn btn-success" onclick="sendEmail()">Send</button>
-                    <a href="inbox.html"><button type="submit" class="btn btn-danger">Discard</button></a>
-                  </div>
-                </div>
+      </div><!--/.col-md-3-->
+      
+      <div class="col-md-9">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <span id="page" class="btn-group" style="margin-left: 42%;">
+              
+            </span>
 
-              </div>	
-            </div>	
-          </div><!--/.col-md-9-->
+            <ul id = "messages-list" class="messages-list">
 
+            </ul>
+
+          </div>	
+        </div>	
+      </div><!--/.col-md-9-->	
     </div>
     </div>
     <script>
+      var context = "sent";
       var currentuser = {};
-      var subject = "";
-      var body = "";
-      var hasParams = false;
 
-      window.onload = function() {
-        console.log(window.location.search.length);
-        
-        if(window.location.search.length !== 0) {
-          hasParams = true;
-          var params = window.location.search.split('&');
-
-          document.getElementById("div-cc").innerHTML =
-          `<input type='email' class='form-control select2-offscreen' id='cc' tabindex='-1' value='${decodeURIComponent(params[0].split('=')[1])}' disabled>`;
-          
-          document.getElementById("div-message").innerHTML =
-          `<textarea class='form-control' id='message' name='body' rows='12' disabled>${decodeURIComponent(params[1].split('=')[1])}</textarea>`;
+      function setTitle() {
+        if(context === "inbox") {
+          document.getElementById("page").innerHTML = "<button class='btn btn-default' disabled><span class='fa fa-inbox'></span> Inbox </button>"
+        } else {
+          document.getElementById("page").innerHTML = "<button class='btn btn-default' disabled><span class='fa fa-rocket'></span> Sent </button>"
         }
-        
       }
 
+      window.onload = setTitle();
+
+      function changeContext(type) {
+        if(context !== type) {
+          if(context == "inbox") {
+            context = "sent";
+          } else context = "inbox";
+          setTitle();
+          identifyCurrentUser();
+        }
+      }
+      
       function callAPI(method, url, data, callBackFunction){
         const xhr = new XMLHttpRequest();
         xhr.withCredentials = false;
@@ -114,28 +95,65 @@
       }
 
       function identifyCurrentUser() {
-        callAPI("GET", "http://localhost:3000/currentuser", null, setCurrentUser);
+        callAPI("GET", "http://localhost:3000/currentuser", null, loadEmails);
       }
 
-      function setCurrentUser(response) {
-        console.log("Current User: ")
+      function loadEmails(response) {
         console.log(response);
         currentuser = response;
+        if(response !== undefined) {
+          context === "inbox" ?
+            callAPI("GET", `http://localhost:3000/emails-recieved?email=${response.email}`, null, handleLoadEmails)
+          :
+            callAPI("GET", `http://localhost:3000/emails-sended?email=${response.email}`, null, handleLoadEmails)
+        } else {
+          alert("Erro ao carregar os emails desse usuário");
+        }
+      }
 
+      function handleLoadEmails(response){
+        console.log("RESPOSTA: ");
+        console.log(response);
+        list = "";
+        if(response !== undefined) {
+          for(index = response.length-1; index >= 0; index --) {
+            list = list +
+            `<li id=${index} class='unread'>` +
+              `<a href='#' onclick='navigateToMessage(${index})'>` +
+                "<div class='header'>" +
+                  "<span class='action'></span>" +
+                  "<span class='from'>" + response[index].sender + "</span>" +
+                  "<span class='date'><span class='fa fa-paper-clip'></span>" + response[index].date + "</span>" +
+                "</div>" +
+                "<div class='title'>" +
+                  "<span class='action'></span>" 
+                  + response[index].subject +
+                "</div>" +
+                "<div class='description'>" 
+                  + response[index].body + 
+                "</div>" +
+              "</a>" +	
+            "</li>"
+          }
+        }
+        document.getElementById("messages-list").innerHTML = list;
+        //if(context == "inbox") document.getElementById("label label-danger-inbox").innerHTML = response.length;
         loadUsers();
       }
-      
+
+      function navigateToMessage(id){
+        //var url = "message.html?id=" + encodeURIComponent(id) + `&type=${context}`;
+        var url = "message.html?id=" + encodeURIComponent(id) + "&type=" + encodeURIComponent(context);
+        window.location.href = url;
+      }
+
       function loadUsers() {
         callAPI("GET", "http://localhost:3000/users", null, handleLoadUsers);
       }
 
       function handleLoadUsers(response){
         list = "";
-        console.log("All Users: ");
-        console.log(response);
         for(index = 0; index < response.length; index ++){
-          console.log(currentuser)
-          console.log(response[index])
           if(currentuser.id === response[index].id) {
             list = list +
             "<li><span class='label label-success'></span> " + response[index].name + " (You)</li>"
@@ -148,58 +166,11 @@
       }
       
       identifyCurrentUser();
-
-      function sendEmail() {
-        const email = document.getElementById("to").value;
-        const subject = document.getElementById("cc").value;
-        const body = document.getElementById("message").value;
-
-        if(email.length === 0 || subject.length === 0 || body.length === 0) {
-          alert("É preciso preencher todos os campos!");
-        } else {
-          hasParams ?
-          (
-            data = JSON.stringify({
-            sender_name: currentuser.name,
-            sender: currentuser.email,
-            addressee: email,
-            subject: subject,
-            body: body,
-            type: "forward"
-          })
-          )
-          :
-          (
-            data = JSON.stringify({
-            sender_name: currentuser.name,
-            sender: currentuser.email,
-            addressee: email,
-            subject: subject,
-            body: body,
-            type: "sent"
-          })
-          )
-
-          console.log("E-mail a ser enviado: ")
-          console.log(data);
-
-          callAPI("POST", "http://localhost:3000/send", data, handleSendEmail);
-        }
-
-      }
-
-      function handleSendEmail(response) {
-        console.log(response);
-        window.location.href = "sent.html"
-      }
-
     </script>
     <style type="text/css">
-      body {
-        margin-top:20px;
-        background:#eee;
+      body{margin-top:20px;
+          background:#eee;
       }
-
 
       .inbox .inbox-menu ul {
           margin-top: 30px;
@@ -457,7 +428,7 @@
       .inbox .contacts ul li:hover {
           background: #e4e5e6
       }
-    </style>  
+    </style>
     </div>
   </body>
 </html>

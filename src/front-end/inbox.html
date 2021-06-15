@@ -11,22 +11,16 @@
       <div class="col-md-3">
           <div class="panel panel-default">
           <div class="panel-body inbox-menu">
-            <a href="page-inbox-compose.html" class="btn btn-danger btn-block">New Email</a>
+            <a href="send.html" class="btn btn-danger btn-block">New Email</a>
             <ul>
               <li>
-                <a href="#"><i class="fa fa-inbox"></i> Inbox <span class="label label-danger">4</span></a>
+                <a href="#" onclick="changeContext('inbox')"><i class="fa fa-inbox"></i> Inbox </a>
               </li>
               <li>
-                <a href="#"><i class="fa fa-star"></i> Stared</a>
+                <a href="#" onclick="changeContext('sent')"><i class="fa fa-rocket"></i> Sent</a>
               </li>
               <li>
-                <a href="#"><i class="fa fa-rocket"></i> Sent</a>
-              </li>
-              <li>
-                <a href="#"><i class="fa fa-trash-o"></i> Trash</a>
-              </li>
-              <li>
-                <a href="#"><i class="fa fa-bookmark"></i> Important<span class="label label-info">5</span></a>
+                <a href="login.html"><i class="fa fa-close"></i> Log out</a>
               </li>
             </ul>
           </div>	
@@ -35,10 +29,8 @@
         <div class="panel panel-default">
           <div class="panel-body contacts">
             <a href="#" class="btn btn-success btn-block">Contacts</a>
-            <ul>
-              <li><span class="label label-success"></span> Arthur Basílio (You)</li>
-              <li><span class="label label-success"></span> Gisele Ribeiro</li>
-              <li><span class="label label-success"></span> Wesley Lima</li>
+            <ul id="users-list">
+              
             </ul>
           </div>
         </div>
@@ -48,62 +40,136 @@
       <div class="col-md-9">
         <div class="panel panel-default">
           <div class="panel-body">
-            <span class="btn-group">
-                <button class="btn btn-default"><span class="fa fa-star-o"></span></button>
-                <button class="btn btn-default"><span class="fa fa-bookmark-o"></span></button>
-                <button class="btn btn-default"><span class="fa fa-trash-o"></span></button>
+            <span id="page" class="btn-group" style="margin-left: 42%;">
             </span>
 
-            <span class="btn-group pull-right">
-                <button class="btn btn-default"><span class="fa fa-chevron-left"></span></button>
-                <button class="btn btn-default"><span class="fa fa-chevron-right"></span></button>
-            </span>
+            <ul id = "messages-list" class="messages-list">
 
-            <ul class="messages-list">
-              <li class="unread">
-                <a href="page-inbox-message.html">
-                  <div class="header">
-                    <span class="action"><i class="fa fa-square-o"></i><i class="fa fa-square"></i></span> 
-                    <span class="from">Gisele Ribeiro</span>
-                    <span class="date"><span class="fa fa-paper-clip"></span> Today, 3:47 PM</span>
-                  </div>
-                  <div class="title">
-                    <span class="action"><i class="fa fa-star-o"></i><i class="fa fa-star bg"></i></span>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  </div>	
-                  <div class="description">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-                  </div>
-                </a>		
-              </li>
-              <li>
-                <a href="page-inbox-message.html">
-                  <div class="header">
-                    <span class="action"><i class="fa fa-square-o"></i><i class="fa fa-square"></i></span> 
-                    <span class="from">Gisele Ribeiro</span>
-                    <span class="date"><span class="fa fa-paper-clip"></span> Today, 3:47 PM</span>
-                  </div>
-                  <div class="title">
-                    <span class="action"><i class="fa fa-star-o"></i><i class="fa fa-star bg"></i></span>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  </div>	
-                  <div class="description">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-                  </div>
-                </a>		
-              </li>
             </ul>
 
           </div>	
         </div>	
       </div><!--/.col-md-9-->	
-          
     </div>
+    </div>
+    <script>
+      var context = "inbox";
+      var currentuser = {};
 
-    </div>
+      function setTitle() {
+        if(context === "inbox") {
+          document.getElementById("page").innerHTML = "<button class='btn btn-default' disabled><span class='fa fa-inbox'></span> Inbox </button>"
+        } else {
+          document.getElementById("page").innerHTML = "<button class='btn btn-default' disabled><span class='fa fa-rocket'></span> Sent </button>"
+        }
+      }
+
+      window.onload = setTitle();
+
+      function changeContext(type) {
+        if(context !== type) {
+          if(context == "inbox") {
+            context = "sent";
+          } else context = "inbox";
+          setTitle();
+          identifyCurrentUser();
+        }
+      }
+      
+      function callAPI(method, url, data, callBackFunction){
+        const xhr = new XMLHttpRequest();
+        xhr.withCredentials = false;
+
+        xhr.addEventListener("readystatechange", function () {
+        if (this.readyState === this.DONE) {
+            this.status === 200 ? callBackFunction(JSON.parse(this.responseText)) : callBackFunction(undefined);
+        }
+        });
+        
+        xhr.open(method, url);
+        xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+        xhr.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+        xhr.setRequestHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers');
+        xhr.send(data);
+      }
+
+      function identifyCurrentUser() {
+        callAPI("GET", "http://localhost:3000/currentuser", null, loadEmails);
+      }
+
+      function loadEmails(response) {
+        //console.log(response);
+        currentuser = response;
+        if(response !== undefined) {
+          context === "inbox" ?
+            callAPI("GET", `http://localhost:3000/emails-recieved?email=${response.email}`, null, handleLoadEmails)
+          :
+            callAPI("GET", `http://localhost:3000/emails-sended?email=${response.email}`, null, handleLoadEmails)
+        } else {
+          alert("Erro ao carregar os emails desse usuário");
+        }
+      }
+
+      function handleLoadEmails(response){
+        console.log("RESPOSTA: ");
+        console.log(response);
+        list = "";
+        if(response !== undefined) {
+          for(index = response.length-1; index >= 0; index --) {
+            list = list +
+            `<li id=${index} class='unread'>` +
+              `<a href='#' onclick='navigateToMessage(${index})'>` +
+                "<div class='header'>" +
+                  "<span class='action'></i></span>" +
+                  "<span class='from'>" + response[index].sender + "</span>" +
+                  "<span class='date'><span class='fa fa-paper-clip'></span>" + response[index].date + "</span>" +
+                "</div>" +
+                "<div class='title'>" +
+                  "<span class='action'></span>" 
+                  + response[index].subject +
+                "</div>" +
+                "<div class='description'>" 
+                  + response[index].body + 
+                "</div>" +
+              "</a>" +	
+            "</li>"
+          }
+        }
+        document.getElementById("messages-list").innerHTML = list;
+        //if(context == "inbox") document.getElementById("label label-danger-inbox").innerHTML = response.length;
+        loadUsers();
+      }
+      
+      function navigateToMessage(id){
+        //var url = "message.html?id=" + encodeURIComponent(id) + `&type=${context}`;
+        var url = "message.html?id=" + encodeURIComponent(id) + "&type=" + encodeURIComponent(context);
+        window.location.href = url;
+      }
+
+      function loadUsers() {
+        callAPI("GET", "http://localhost:3000/users", null, handleLoadUsers);
+      }
+
+      function handleLoadUsers(response){
+        list = "";
+        for(index = 0; index < response.length; index ++){
+          if(currentuser.id === response[index].id) {
+            list = list +
+            "<li><span class='label label-success'></span> " + response[index].name + " (You)</li>"
+          } else {
+            list = list +
+          "<li><span class='label label-success'></span> " + response[index].name + "</li>"
+          } 
+        }
+        document.getElementById("users-list").innerHTML = list;
+      }
+      
+      identifyCurrentUser();
+    </script>
     <style type="text/css">
-      body{margin-top:20px;
-          background:#eee;
+      body {
+        margin-top:20px;
+        background:#eee;
       }
 
       .inbox .inbox-menu ul {
@@ -298,7 +364,6 @@
           display: inline-block;
           width: 29%;
           text-align: right;
-          float: right;
           font-size: 12px;
           margin-top: 18px
       }

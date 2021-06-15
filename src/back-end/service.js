@@ -1,13 +1,13 @@
 const url = require('url');
-const emails = require('../back-end/data/emails.json');
+const emails = require('./data/emails.json');
 const fs = require('fs');
 
 exports.getUser = function(req, res, headers) {
     const reqUrl = url.parse(req.url, true);
 
-    if(reqUrl.query.name){
+    if(reqUrl.query.email && reqUrl.query.password){
         var response = emails.users.filter((user) => {
-            return user.name == reqUrl.query.name.toLowerCase()
+            return user.email == reqUrl.query.email.toLowerCase() && user.password == reqUrl.query.password;
         })
         
         if(response.length === 0) {
@@ -22,11 +22,35 @@ exports.getUser = function(req, res, headers) {
     }
 };
 
+exports.getUsers = function(res, headers) {
+    const response = emails["users"]
+
+    if(response.length !== 0){
+        res.writeHead(200, headers);
+        res.end(JSON.stringify(response));
+    } else {
+        res.writeHead(404, headers);
+        res.end('Invalid-Request');
+    }
+};
+
+exports.getCurrentUser = function(res, headers) {
+    var response = emails.current_user;
+
+    if(response && response !== {}){
+        res.writeHead(200, headers);
+        res.end(JSON.stringify(response));
+    } else {
+        res.writeHead(404, headers);
+        res.end(JSON.stringify(response));
+    }
+};
+
 exports.getAllUserEmails = function(req, res, headers) {
     const reqUrl = url.parse(req.url, true);
 
-    if(reqUrl.query.name){
-        var response = emails[reqUrl.query.name.toLowerCase()]
+    if(reqUrl.query.email){
+        var response = emails[reqUrl.query.email.toLowerCase()]
 
         if(response === undefined) {
             res.writeHead(404, headers);
@@ -44,8 +68,8 @@ exports.getAllUserEmails = function(req, res, headers) {
 exports.getAllSendedEmails = function(req, res, headers) {
     const reqUrl = url.parse(req.url, true);
 
-    if(reqUrl.query.name){
-        var response = emails[reqUrl.query.name.toLowerCase()]
+    if(reqUrl.query.email){
+        var response = emails[reqUrl.query.email.toLowerCase()]
 
         if(response === undefined) {
             res.writeHead(404, headers);
@@ -66,8 +90,8 @@ exports.getAllSendedEmails = function(req, res, headers) {
 exports.getAllRecievedEmails = function(req, res, headers) {
     const reqUrl = url.parse(req.url, true);
 
-    if(reqUrl.query.name){
-        var response = emails[reqUrl.query.name.toLowerCase()]
+    if(reqUrl.query.email){
+        var response = emails[reqUrl.query.email.toLowerCase()]
 
         if(response === undefined) {
             res.writeHead(404, headers);
@@ -88,8 +112,8 @@ exports.getAllRecievedEmails = function(req, res, headers) {
 exports.getUserEmail = function(req, res, headers) {
     const reqUrl = url.parse(req.url, true);
 
-    if(reqUrl.query.name && reqUrl.query.id && reqUrl.query.class){
-        var response = emails[reqUrl.query.name.toLowerCase()]
+    if(reqUrl.query.email && reqUrl.query.id && reqUrl.query.class){
+        var response = emails[reqUrl.query.email.toLowerCase()]
 
         if(response === undefined) {
             res.writeHead(404, headers);
@@ -116,7 +140,7 @@ exports.getUserEmail = function(req, res, headers) {
     }
 };
 
-exports.sendEmail = function(req, res, headers) {
+exports.setCurrentUser = function(req, res, headers) {
     body = '';
 
     req.on('data', function(chunk){
@@ -126,11 +150,41 @@ exports.sendEmail = function(req, res, headers) {
     req.on('end', function(){
         postBody = JSON.parse(body);
 
+        emails["current_user"] = {
+            "id": postBody.id,
+            "name": postBody.name,
+            "username": postBody.username,
+            "email": postBody.email,
+            "password": postBody.password,
+        };
+
+        fs.writeFile('./src/back-end/data/emails.json', JSON.stringify(emails), (err) => {
+            if(err) throw err;
+        });
+
+        res.writeHead(200, headers);
+        res.end(JSON.stringify(emails));
+    });
+}
+
+exports.sendEmail = function(req, res, headers) {
+    body = '';
+
+    req.on('data', function(chunk){
+        body += chunk;
+    });
+
+    req.on('end', function(){
+        postBody = JSON.parse(body);
+        date = new Date().toLocaleString('en', { timeZone: 'America/Fortaleza' });
+
         length = emails[postBody.sender.toLowerCase()]["sent"].length
         emails[postBody.sender.toLowerCase()]["sent"][length] = {
-            "id": length + 1,
+            "id": length,
+            "sender_name": postBody.sender_name,
             "sender": postBody.sender,
             "addressee": postBody.addressee,
+            "date": date,
             "subject": postBody.subject,
             "body": postBody.body,
             "type": postBody.type
@@ -138,15 +192,17 @@ exports.sendEmail = function(req, res, headers) {
 
         length = emails[postBody.addressee.toLowerCase()]["inbox"].length
         emails[postBody.addressee.toLowerCase()]["inbox"][length] = {
-            "id": length + 1,
+            "id": length,
+            "sender_name": postBody.sender_name,
             "sender": postBody.sender,
             "addressee": postBody.addressee,
+            "date": date,
             "subject": postBody.subject,
             "body": postBody.body,
             "type": postBody.type
         };
 
-        fs.writeFile('./emails.json', JSON.stringify(emails), (err) => {
+        fs.writeFile('./src/back-end/data/emails.json', JSON.stringify(emails), (err) => {
             if(err) throw err;
         });
 
@@ -158,16 +214,16 @@ exports.sendEmail = function(req, res, headers) {
 exports.deleteAllEmails = function(req, res, headers) {
     const reqUrl = url.parse(req.url, true);
 
-    if(reqUrl.query.name && reqUrl.query.class){
-        if(emails[reqUrl.query.name.toLowerCase()] === undefined) {
+    if(reqUrl.query.email && reqUrl.query.class){
+        if(emails[reqUrl.query.email.toLowerCase()] === undefined) {
             res.writeHead(404, headers);
             res.end(JSON.stringify({}));
-        } else if(emails[reqUrl.query.name.toLowerCase()][reqUrl.query.class] === undefined){
+        } else if(emails[reqUrl.query.email.toLowerCase()][reqUrl.query.class] === undefined){
             res.writeHead(404, headers);
             res.end(JSON.stringify({}));
         } else {
-            emails[reqUrl.query.name.toLowerCase()][reqUrl.query.class] = []
-            fs.writeFile('./emails.json', JSON.stringify(emails), (err) => {
+            emails[reqUrl.query.email.toLowerCase()][reqUrl.query.class] = []
+            fs.writeFile('./src/back-end/data/emails.json', JSON.stringify(emails), (err) => {
                 if(err) throw err;
             });
             res.writeHead(200, headers);
@@ -181,18 +237,20 @@ exports.deleteAllEmails = function(req, res, headers) {
 
 exports.deleteEmail = function(req, res, headers) {
     const reqUrl = url.parse(req.url, true);
-    if(reqUrl.query.name && reqUrl.query.id && reqUrl.query.class){
-        if(emails[reqUrl.query.name.toLowerCase()] === undefined) {
+    if(reqUrl.query.email && reqUrl.query.id && reqUrl.query.class){
+        if(emails[reqUrl.query.email.toLowerCase()] === undefined) {
             res.writeHead(404, headers);
             res.end(JSON.stringify({}));
-        } else if(emails[reqUrl.query.name.toLowerCase()][reqUrl.query.class] === undefined){
+        } else if(emails[reqUrl.query.email.toLowerCase()][reqUrl.query.class] === undefined){
             res.writeHead(404, headers);
             res.end(JSON.stringify({}));
         } else {
             var cont = -1;
-            emails[reqUrl.query.name.toLowerCase()][reqUrl.query.class].forEach((email) => {
+            var current_email = {};
+            emails[reqUrl.query.email.toLowerCase()][reqUrl.query.class].forEach((email) => {
                 if(email.id == reqUrl.query.id) {
                     cont = email.id;
+                    current_email = email;
                     return
                 }  
             })
@@ -201,12 +259,28 @@ exports.deleteEmail = function(req, res, headers) {
                 res.writeHead(404, headers);
                 res.end(JSON.stringify({}));
             } else {
-                emails[reqUrl.query.name.toLowerCase()][reqUrl.query.class][cont-1] = {}
-                fs.writeFile('./emails.json', JSON.stringify(emails), (err) => {
+                //console.log(emails[reqUrl.query.email.toLowerCase()][reqUrl.query.class][0])
+                //emails[reqUrl.query.email.toLowerCase()][reqUrl.query.class][cont] = {}
+                var change = []
+                for(index = 0; index < emails[reqUrl.query.email.toLowerCase()][reqUrl.query.class].length; index ++) {
+                    if(emails[reqUrl.query.email.toLowerCase()][reqUrl.query.class][index].id !== cont) {
+                        change.push(emails[reqUrl.query.email.toLowerCase()][reqUrl.query.class][index]);
+                    }
+                }
+                //console.log(change);
+                /*
+                console.log(current_email);
+                fs.writeFile('./src/back-end/data/emails.json', JSON.stringify(emails), (err) => {
+                    if(err) throw err;
+                });
+                */
+                emails[reqUrl.query.email.toLowerCase()][reqUrl.query.class] = change;
+                fs.writeFile('./src/back-end/data/emails.json', JSON.stringify(emails), (err) => {
                     if(err) throw err;
                 });
                 res.writeHead(200, headers);
-                res.end(`User-${reqUrl.query.name}'s-id-${reqUrl.query.id}-${reqUrl.query.class}-email-was-deleted`);
+                //res.end(`User-${reqUrl.query.email}'s-id-${reqUrl.query.id}-${reqUrl.query.class}-email-was-deleted`);
+                res.end(JSON.stringify({}));
             }
         }
     } else {

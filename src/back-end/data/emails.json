@@ -1,80 +1,84 @@
- {  
+{
     "users":
     [
         {
-            "id": 1,
-            "name": "arthur",
-            "email": "arthur@email.com",
-            "password": "arthur123"
+            "id":0,
+            "name":"Festus Bot",
+            "username":"festus",
+            "email":"festus@email.com",
+            "password":"festus123"
         },
         {
-            "id": 2,
-            "name": "gisele",
-            "email": "gisele@email.com",
-            "password": "gisele123"
+            "id":1,
+            "name":"Wesley Lima",
+            "username":"wesley",
+            "email":"wesley@email.com",
+            "password":"wesley123"
         }
-    ], 
-    "arthur": 
-    {   "sent": 
+    ],
+    "current_user":
+    {
+        "id":0,
+        "name":"Festus Bot",
+        "username":"festus",
+        "email":"festus@email.com",
+        "password":"festus123"
+    },
+    "festus@email.com":
+    {
+        "sent":
         [
             {
-                "id": 1,
-                "sender": "arthur",
-                "addressee": "gisele",
-                "subject": "Assunto 1 - arthur",
-                "body": "Texto 1 - arthur",
-                "type": "sent"
-            },
-            {
-                "id": 2,
-                "sender": "arthur",
-                "addressee": "gisele",
-                "subject": "Assunto 2 - arthur",
-                "body": "Texto 2 - arthur",
-                "type": "sent"
+                "id":0,
+                "sender_name": "Festus Bot",
+                "sender":"festus@email.com",
+                "addressee":"wesley@email.com",
+                "date":"6/12/2021, 12:44:07 PM",
+                "subject":"Boas-vindas!",
+                "body":"Seja bem-vindo à aplicação e-mail do festus-bot. Explicação sobre como a aplicação funciona.",
+                "type":"sent"
             }
         ],
         "inbox":
         [
             {
-                "id": 1,
-                "sender": "gisele",
-                "addressee": "arthur",
-                "subject": "Assunto 1 - gisele",
-                "body": "Texto 1 - gisele",
-                "type": "sent"
+                "id":0,
+                "sender_name": "Wesley Lima",
+                "sender":"wesley@email.com",
+                "addressee":"festus@email.com",
+                "date":"6/12/2021, 12:44:07 PM",
+                "subject":"Lorem ipsum dolor sit amet consectetur adipiscing elit tristique odio",
+                "body":"Lorem ipsum dolor sit amet consectetur adipiscing elit accumsan vehicula tellus imperdiet lacinia odio maecenas a pharetra interdum sagittis nisl leo nam dictum orci nascetur posuere consequat egestas netus sociosqu",
+                "type":"sent"
             }
         ]
     },
-    "gisele": 
-    {   "sent":
+    "wesley@email.com":
+    {
+        "sent":
         [
             {
-                "id": 1,
-                "sender": "gisele",
-                "addressee": "arthur",
-                "subject": "Assunto 1 - gisele",
-                "body": "Texto 1 - gisele",
-                "type": "sent"
+                "id":0,
+                "sender_name": "Wesley Lima",
+                "sender":"wesley@email.com",
+                "addressee":"festus@email.com",
+                "date":"6/12/2021, 12:44:07 PM",
+                "subject":"Lorem ipsum dolor sit amet consectetur adipiscing elit tristique odio",
+                "body":"Lorem ipsum dolor sit amet consectetur adipiscing elit accumsan vehicula tellus imperdiet lacinia odio maecenas a pharetra interdum sagittis nisl leo nam dictum orci nascetur posuere consequat egestas netus sociosqu",
+                "type":"sent"
             }
         ],
-        "inbox": 
+        "inbox":
         [
             {
-                "id": 1,
-                "sender": "arthur",
-                "addressee": "gisele",
-                "subject": "Assunto 1 - arthur",
-                "body": "Texto 1 - arthur",
-                "type": "sent"
-            },
-            {
-                "id": 2,
-                "sender": "arthur",
-                "addressee": "gisele",
-                "subject": "Assunto 2 - arthur",
-                "body": "Texto 2 - arthur",
-                "type": "sent"
+                "id":0,
+                "sender_name": "Festus Bot",
+                "sender":"festus@email.com",
+                "addressee":"wesley@email.com",
+                "date":"6/12/2021, 12:44:07 PM",
+                "subject":"Boas-vindas!",
+                "body":"Seja bem-vindo à aplicação e-mail do festus-bot. Explicação sobre como a aplicação funciona.",
+                "type":"sent"
             }
         ]
     }
