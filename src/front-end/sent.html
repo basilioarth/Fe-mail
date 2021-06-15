@@ -135,7 +135,8 @@
       }
 
       function navigateToMessage(id){
-        var url = "message.html?id=" + encodeURIComponent(id) + `&type=${context}`;
+        //var url = "message.html?id=" + encodeURIComponent(id) + `&type=${context}`;
+        var url = "message.html?id=" + encodeURIComponent(id) + "&type=" + encodeURIComponent(context);
         window.location.href = url;
       }
 

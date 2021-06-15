@@ -66,7 +66,7 @@
                   </div>
                   <div class="form-group">
                       <button tabindex="3" type="button" class="btn btn-success" onclick="replyMessage()">Reply message</button>
-                      <button tabindex="3" type="submit" class="btn btn-success">Forward</button>
+                      <button tabindex="3" type="button" class="btn btn-success" onclick="forwardMessage()">Forward</button>
                   </div>
                 </form>
             </div>
@@ -86,8 +86,8 @@
 
       window.onload = function() {
         var params = window.location.search.split('&');
-        id = params[0].split('=')[1];
-        type = params[1].split('=')[1];
+        id = decodeURIComponent(params[0].split('=')[1]);
+        type = decodeURIComponent(params[1].split('=')[1]);
         console.log(id);
         console.log(type);
       }
@@ -211,6 +211,12 @@
       function handleReplyEmail(response) {
         console.log(response);
         window.location.href = "sent.html"
+      }
+
+      function forwardMessage() {
+        console.log("ENTRAMOS");
+        var url = "send.html?subject=" + encodeURIComponent(currentemail[0].subject) + "&body=" + encodeURIComponent(currentemail[0].body);
+        window.location.href = url;
       }
 
       function deleteEmail(){
