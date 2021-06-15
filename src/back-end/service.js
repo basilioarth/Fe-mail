@@ -157,11 +157,13 @@ exports.setCurrentUser = function(req, res, headers) {
             "email": postBody.email,
             "password": postBody.password,
         };
-
+        
+        fs.writeFileSync('./src/back-end/data/emails.json', JSON.stringify(emails));
+        /*
         fs.writeFile('./src/back-end/data/emails.json', JSON.stringify(emails), (err) => {
             if(err) throw err;
         });
-
+        */
         res.writeHead(200, headers);
         res.end(JSON.stringify(emails));
     });
@@ -202,10 +204,12 @@ exports.sendEmail = function(req, res, headers) {
             "type": postBody.type
         };
 
+        fs.writeFileSync('./src/back-end/data/emails.json', JSON.stringify(emails));
+        /*
         fs.writeFile('./src/back-end/data/emails.json', JSON.stringify(emails), (err) => {
             if(err) throw err;
         });
-
+        */
         res.writeHead(200, headers);
         res.end(JSON.stringify(emails));
     });
@@ -223,9 +227,12 @@ exports.deleteAllEmails = function(req, res, headers) {
             res.end(JSON.stringify({}));
         } else {
             emails[reqUrl.query.email.toLowerCase()][reqUrl.query.class] = []
+            fs.writeFileSync('./src/back-end/data/emails.json', JSON.stringify(emails));
+            /*
             fs.writeFile('./src/back-end/data/emails.json', JSON.stringify(emails), (err) => {
                 if(err) throw err;
             });
+            */
             res.writeHead(200, headers);
             res.end(`All-${reqUrl.query.class}-emails-were-deleted`);
         }
@@ -268,10 +275,12 @@ exports.deleteEmail = function(req, res, headers) {
                 }
                 
                 emails[reqUrl.query.email.toLowerCase()][reqUrl.query.class] = change;
+                fs.writeFileSync('./src/back-end/data/emails.json', JSON.stringify(emails));
+                /*
                 fs.writeFile('./src/back-end/data/emails.json', JSON.stringify(emails), (err) => {
                     if(err) throw err;
                 });
-
+                */
                 res.writeHead(200, headers);
                 res.end(JSON.stringify({}));
             }
