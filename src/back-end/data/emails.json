@@ -30,6 +30,7 @@
         [
             {
                 "id":0,
+                "sender_name": "Festus Bot",
                 "sender":"festus@email.com",
                 "addressee":"wesley@email.com",
                 "date":"6/12/2021, 12:44:07 PM",
@@ -42,6 +43,7 @@
         [
             {
                 "id":0,
+                "sender_name": "Wesley Lima",
                 "sender":"wesley@email.com",
                 "addressee":"festus@email.com",
                 "date":"6/12/2021, 12:44:07 PM",
@@ -57,6 +59,7 @@
         [
             {
                 "id":0,
+                "sender_name": "Wesley Lima",
                 "sender":"wesley@email.com",
                 "addressee":"festus@email.com",
                 "date":"6/12/2021, 12:44:07 PM",
@@ -69,6 +72,7 @@
         [
             {
                 "id":0,
+                "sender_name": "Festus Bot",
                 "sender":"festus@email.com",
                 "addressee":"wesley@email.com",
                 "date":"6/12/2021, 12:44:07 PM",
