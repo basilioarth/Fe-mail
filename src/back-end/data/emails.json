@@ -10,10 +10,10 @@
         },
         {
             "id":1,
-            "name":"Wesley Lima",
-            "username":"wesley",
-            "email":"wesley@email.com",
-            "password":"wesley123"
+            "name":"Weslley Lima",
+            "username":"weslley",
+            "email":"weslley@email.com",
+            "password":"weslley123"
         }
     ],
     "current_user":
@@ -32,7 +32,7 @@
                 "id":0,
                 "sender_name": "Festus Bot",
                 "sender":"festus@email.com",
-                "addressee":"wesley@email.com",
+                "addressee":"weslley@email.com",
                 "date":"6/12/2021, 12:44:07 PM",
                 "subject":"Boas-vindas!",
                 "body":"Seja bem-vindo à aplicação e-mail do festus-bot. Explicação sobre como a aplicação funciona.",
@@ -43,28 +43,28 @@
         [
             {
                 "id":0,
-                "sender_name": "Wesley Lima",
-                "sender":"wesley@email.com",
+                "sender_name": "Weslley Lima",
+                "sender":"weslley@email.com",
                 "addressee":"festus@email.com",
                 "date":"6/12/2021, 12:44:07 PM",
-                "subject":"Lorem ipsum dolor sit amet consectetur adipiscing elit tristique odio",
-                "body":"Lorem ipsum dolor sit amet consectetur adipiscing elit accumsan vehicula tellus imperdiet lacinia odio maecenas a pharetra interdum sagittis nisl leo nam dictum orci nascetur posuere consequat egestas netus sociosqu",
+                "subject":"Assunto",
+                "body":"Corpo da mensagem. Obs: este email tem como objetivo servir como um exemplo de como o layout da aplicação está estruturado.",
                 "type":"sent"
             }
         ]
     },
-    "wesley@email.com":
+    "weslley@email.com":
     {
         "sent":
         [
             {
                 "id":0,
-                "sender_name": "Wesley Lima",
-                "sender":"wesley@email.com",
+                "sender_name": "Weslley Lima",
+                "sender":"weslley@email.com",
                 "addressee":"festus@email.com",
                 "date":"6/12/2021, 12:44:07 PM",
-                "subject":"Lorem ipsum dolor sit amet consectetur adipiscing elit tristique odio",
-                "body":"Lorem ipsum dolor sit amet consectetur adipiscing elit accumsan vehicula tellus imperdiet lacinia odio maecenas a pharetra interdum sagittis nisl leo nam dictum orci nascetur posuere consequat egestas netus sociosqu",
+                "subject":"Assunto",
+                "body":"Corpo da mensagem. Obs: este email tem como objetivo servir como um exemplo de como o layout da aplicação está estruturado.",
                 "type":"sent"
             }
         ],
@@ -74,7 +74,7 @@
                 "id":0,
                 "sender_name": "Festus Bot",
                 "sender":"festus@email.com",
-                "addressee":"wesley@email.com",
+                "addressee":"weslley@email.com",
                 "date":"6/12/2021, 12:44:07 PM",
                 "subject":"Boas-vindas!",
                 "body":"Seja bem-vindo à aplicação e-mail do festus-bot. Explicação sobre como a aplicação funciona.",
