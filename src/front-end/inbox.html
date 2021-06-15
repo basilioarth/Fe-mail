@@ -98,7 +98,6 @@
       }
 
       function loadEmails(response) {
-        //console.log(response);
         currentuser = response;
         if(response !== undefined) {
           context === "inbox" ?
@@ -111,8 +110,6 @@
       }
 
       function handleLoadEmails(response){
-        console.log("RESPOSTA: ");
-        console.log(response);
         list = "";
         if(response !== undefined) {
           for(index = response.length-1; index >= 0; index --) {
@@ -136,12 +133,10 @@
           }
         }
         document.getElementById("messages-list").innerHTML = list;
-        //if(context == "inbox") document.getElementById("label label-danger-inbox").innerHTML = response.length;
         loadUsers();
       }
       
       function navigateToMessage(id){
-        //var url = "message.html?id=" + encodeURIComponent(id) + `&type=${context}`;
         var url = "message.html?id=" + encodeURIComponent(id) + "&type=" + encodeURIComponent(context);
         window.location.href = url;
       }
