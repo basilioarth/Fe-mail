@@ -81,7 +81,6 @@
       var hasParams = false;
 
       window.onload = function() {
-        console.log(window.location.search.length);
         
         if(window.location.search.length !== 0) {
           hasParams = true;
@@ -118,10 +117,7 @@
       }
 
       function setCurrentUser(response) {
-        console.log("Current User: ")
-        console.log(response);
         currentuser = response;
-
         loadUsers();
       }
       
@@ -131,11 +127,7 @@
 
       function handleLoadUsers(response){
         list = "";
-        console.log("All Users: ");
-        console.log(response);
         for(index = 0; index < response.length; index ++){
-          console.log(currentuser)
-          console.log(response[index])
           if(currentuser.id === response[index].id) {
             list = list +
             "<li><span class='label label-success'></span> " + response[index].name + " (You)</li>"
@@ -180,16 +172,12 @@
           })
           )
 
-          console.log("E-mail a ser enviado: ")
-          console.log(data);
-
           callAPI("POST", "http://localhost:3000/send", data, handleSendEmail);
         }
 
       }
 
       function handleSendEmail(response) {
-        console.log(response);
         window.location.href = "sent.html"
       }
 
