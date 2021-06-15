@@ -14,10 +14,10 @@
             <a href="send.html" class="btn btn-danger btn-block">New Email</a>
             <ul>
               <li>
-                <a href="#" onclick="changeContext()"><i class="fa fa-inbox"></i> Inbox </a>
+                <a href="#" onclick="changeContext('inbox')"><i class="fa fa-inbox"></i> Inbox </a>
               </li>
               <li>
-                <a href="#" onclick="changeContext()"><i class="fa fa-rocket"></i> Sent</a>
+                <a href="#" onclick="changeContext('sent')"><i class="fa fa-rocket"></i> Sent</a>
               </li>
             </ul>
           </div>	
@@ -61,12 +61,15 @@
       var context = "sent";
       var currentuser = {};
 
-      function changeContext() {
-        if(context == "inbox") {
-          context = "sent";
-        } else context = "inbox";
-        identifyCurrentUser();
+      function changeContext(type) {
+        if(context !== type) {
+          if(context == "inbox") {
+            context = "sent";
+          } else context = "inbox";
+          identifyCurrentUser();
+        }
       }
+      
       function callAPI(method, url, data, callBackFunction){
         const xhr = new XMLHttpRequest();
         xhr.withCredentials = false;
@@ -104,10 +107,10 @@
       function handleLoadEmails(response){
         console.log(response);
         list = "";
-        for(index = 0; index < response.length; index ++) {
+        for(index = response.length-1; index >= 0; index --) {
           list = list +
-          "<li class='unread'>" +
-            "<a href='message.html'>" +
+          `<li id=${index} class='unread'>` +
+            `<a href='#' onclick='navigateToMessage(${index})'>` +
               "<div class='header'>" +
                 "<span class='action'><i class='fa fa-square-o'></i><i class='fa fa-square'></i></span>" +
                 "<span class='from'>" + response[index].sender + "</span>" +
@@ -126,6 +129,11 @@
         document.getElementById("messages-list").innerHTML = list;
         //if(context == "inbox") document.getElementById("label label-danger-inbox").innerHTML = response.length;
         loadUsers();
+      }
+
+      function navigateToMessage(id){
+        var url = "message.html?id=" + encodeURIComponent(id) + "&type=sent";
+        window.location.href = url;
       }
 
       function loadUsers() {

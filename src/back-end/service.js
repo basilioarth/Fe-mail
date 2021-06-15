@@ -180,7 +180,8 @@ exports.sendEmail = function(req, res, headers) {
 
         length = emails[postBody.sender.toLowerCase()]["sent"].length
         emails[postBody.sender.toLowerCase()]["sent"][length] = {
-            "id": length + 1,
+            "id": length,
+            "sender_name": postBody.sender_name,
             "sender": postBody.sender,
             "addressee": postBody.addressee,
             "date": date,
@@ -191,7 +192,8 @@ exports.sendEmail = function(req, res, headers) {
 
         length = emails[postBody.addressee.toLowerCase()]["inbox"].length
         emails[postBody.addressee.toLowerCase()]["inbox"][length] = {
-            "id": length + 1,
+            "id": length,
+            "sender_name": postBody.sender_name,
             "sender": postBody.sender,
             "addressee": postBody.addressee,
             "date": date,

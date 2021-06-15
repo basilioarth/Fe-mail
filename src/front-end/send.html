@@ -12,7 +12,7 @@
           <div class="col-md-3">
             <div class="panel panel-default">
               <div class="panel-body inbox-menu">						
-                <a href="#page-inbox-compose.html" class="btn btn-danger btn-block">New Email</a>
+                <a href="#" class="btn btn-danger btn-block">New Email</a>
                 <ul>
                   <li>
                     <a href="inbox.html"><i class="fa fa-inbox"></i> Inbox </a>
@@ -133,6 +133,7 @@
         const body = document.getElementById("message").value;
 
         data = JSON.stringify({
+          sender_name: currentuser.name,
           sender: currentuser.email,
           addressee: email,
           subject: subject,
