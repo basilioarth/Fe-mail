@@ -19,6 +19,9 @@
               <li>
                 <a href="sent.html"><i class="fa fa-rocket"></i> Sent</a>
               </li>
+              <li>
+                <a href="login.html"><i class="fa fa-close"></i> Log out</a>
+              </li>
             </ul>
           </div>	
         </div>
@@ -39,20 +42,10 @@
           <div class="panel-body">
             <main class="message">
             <div class="toolbar">
-              <div class="btn-group">
-              <!--
-              <button type="button" class="btn btn-light">
-                  <span class="fa fa-star"></span>
-              </button>
-              -->
-              <button type="button" class="btn btn-light">
-                  <span class="fa fa-star-o"></span>
-              </button>
-              <button type="button" class="btn btn-light">
-                  <span class="fa fa-bookmark-o"></span>
-              </button>
+              <div class="btn-group pull-right">
               <button type="button" class="btn btn-light" onclick="deleteEmail()">
-              <span class="fa fa-trash-o"></span>
+                <span class="fa fa-trash-o" style="color: red;"></span>
+              </button>
               </div>
             </div>
             <div class="details">
@@ -147,7 +140,7 @@
         console.log(response);
         if(response[0].type === "reply") {
           message = 
-          `<div class='title'>re: ${response[0].subject}</div>` +
+          `<div class='title' style='padding-top: 20px; margin-top: 10px;'>re: ${response[0].subject}</div>` +
           "<div class='header'>" +
             "<div class='from'>" +
                 `<span>${response[0].sender_name}</span>` +
@@ -162,7 +155,7 @@
           "</div>";
         } else if(response[0].type === "forward") {
           message = 
-          `<div class='title'>fwd: ${response[0].subject}</div>` +
+          `<div class='title' style='padding-top: 20px; margin-top: 10px;'>fwd: ${response[0].subject}</div>` +
           "<div class='header'>" +
             "<div class='from'>" +
                 `<span>${response[0].sender_name}</span>` +
@@ -177,7 +170,7 @@
           "</div>";
         } else {
           message = 
-          `<div class='title'>${response[0].subject}</div>` +
+          `<div class='title' style='padding-top: 20px; margin-top: 10px;'>${response[0].subject}</div>` +
           "<div class='header'>" +
             "<div class='from'>" +
                 `<span>${response[0].sender_name}</span>` +
@@ -196,16 +189,22 @@
       }
 
       function replyMessage() {
-        data = JSON.stringify({
+        var message = document.getElementById("message").value;
+
+        if(message.length === 0) {
+          alert("É preciso preencher o campo de corpo da mensagem!");
+        } else {
+          data = JSON.stringify({
           sender_name: currentuser.name,
           sender: currentuser.email,
           addressee: currentemail[0].sender,
           subject: currentemail[0].subject,
-          body: document.getElementById("message").value,
+          body: message,
           type: "reply"
-        });
-        console.log(data);
-        callAPI("POST", "http://localhost:3000/send", data, handleReplyEmail);
+          });
+          console.log(data);
+          callAPI("POST", "http://localhost:3000/send", data, handleReplyEmail);
+        }
       }
 
       function handleReplyEmail(response) {

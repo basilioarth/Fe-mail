@@ -19,6 +19,9 @@
               <li>
                 <a href="#" onclick="changeContext('sent')"><i class="fa fa-rocket"></i> Sent</a>
               </li>
+              <li>
+                <a href="login.html"><i class="fa fa-close"></i> Log out</a>
+              </li>
             </ul>
           </div>	
         </div>
@@ -37,9 +40,7 @@
       <div class="col-md-9">
         <div class="panel panel-default">
           <div class="panel-body">
-            <span id="page" class="btn-group">
-                <button class="btn btn-default"><span class="fa fa-inbox"></span> Inbox </button>
-                <button class="btn btn-default"><span class="fa fa-rocket"></span> Sent </button>
+            <span id="page" class="btn-group" style="margin-left: 42%;">
             </span>
 
             <ul id = "messages-list" class="messages-list">
@@ -55,11 +56,22 @@
       var context = "inbox";
       var currentuser = {};
 
+      function setTitle() {
+        if(context === "inbox") {
+          document.getElementById("page").innerHTML = "<button class='btn btn-default' disabled><span class='fa fa-inbox'></span> Inbox </button>"
+        } else {
+          document.getElementById("page").innerHTML = "<button class='btn btn-default' disabled><span class='fa fa-rocket'></span> Sent </button>"
+        }
+      }
+
+      window.onload = setTitle();
+
       function changeContext(type) {
         if(context !== type) {
           if(context == "inbox") {
             context = "sent";
           } else context = "inbox";
+          setTitle();
           identifyCurrentUser();
         }
       }
@@ -155,8 +167,9 @@
       identifyCurrentUser();
     </script>
     <style type="text/css">
-      body{margin-top:20px;
-          background:#eee;
+      body {
+        margin-top:20px;
+        background:#eee;
       }
 
       .inbox .inbox-menu ul {
