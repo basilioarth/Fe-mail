@@ -105,26 +105,29 @@
       }
 
       function handleLoadEmails(response){
-        //console.log(response);
+        console.log("RESPOSTA: ");
+        console.log(response);
         list = "";
-        for(index = response.length-1; index >= 0; index --) {
-          list = list +
-          `<li id=${index} class='unread'>` +
-            `<a href='#' onclick='navigateToMessage(${index})'>` +
-              "<div class='header'>" +
-                "<span class='action'><i class='fa fa-square-o'></i><i class='fa fa-square'></i></span>" +
-                "<span class='from'>" + response[index].sender + "</span>" +
-                "<span class='date'><span class='fa fa-paper-clip'></span>" + response[index].date + "</span>" +
-              "</div>" +
-              "<div class='title'>" +
-                "<span class='action'><i class='fa fa-star-o'></i><i class='fa fa-star bg'></i></span>" 
-                + response[index].subject +
-              "</div>" +
-              "<div class='description'>" 
-                + response[index].body + 
-              "</div>" +
-            "</a>" +	
-          "</li>"
+        if(response !== undefined) {
+          for(index = response.length-1; index >= 0; index --) {
+            list = list +
+            `<li id=${index} class='unread'>` +
+              `<a href='#' onclick='navigateToMessage(${index})'>` +
+                "<div class='header'>" +
+                  "<span class='action'><i class='fa fa-square-o'></i><i class='fa fa-square'></i></span>" +
+                  "<span class='from'>" + response[index].sender + "</span>" +
+                  "<span class='date'><span class='fa fa-paper-clip'></span>" + response[index].date + "</span>" +
+                "</div>" +
+                "<div class='title'>" +
+                  "<span class='action'><i class='fa fa-star-o'></i><i class='fa fa-star bg'></i></span>" 
+                  + response[index].subject +
+                "</div>" +
+                "<div class='description'>" 
+                  + response[index].body + 
+                "</div>" +
+              "</a>" +	
+            "</li>"
+          }
         }
         document.getElementById("messages-list").innerHTML = list;
         //if(context == "inbox") document.getElementById("label label-danger-inbox").innerHTML = response.length;
@@ -132,7 +135,7 @@
       }
       
       function navigateToMessage(id){
-        var url = "message.html?id=" + encodeURIComponent(id) + "&type=inbox";
+        var url = "message.html?id=" + encodeURIComponent(id) + `&type=${context}`;
         window.location.href = url;
       }
 

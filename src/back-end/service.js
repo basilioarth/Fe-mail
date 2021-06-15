@@ -246,9 +246,11 @@ exports.deleteEmail = function(req, res, headers) {
             res.end(JSON.stringify({}));
         } else {
             var cont = -1;
+            var current_email = {};
             emails[reqUrl.query.email.toLowerCase()][reqUrl.query.class].forEach((email) => {
                 if(email.id == reqUrl.query.id) {
                     cont = email.id;
+                    current_email = email;
                     return
                 }  
             })
@@ -257,12 +259,28 @@ exports.deleteEmail = function(req, res, headers) {
                 res.writeHead(404, headers);
                 res.end(JSON.stringify({}));
             } else {
-                emails[reqUrl.query.email.toLowerCase()][reqUrl.query.class][cont-1] = {}
+                //console.log(emails[reqUrl.query.email.toLowerCase()][reqUrl.query.class][0])
+                //emails[reqUrl.query.email.toLowerCase()][reqUrl.query.class][cont] = {}
+                var change = []
+                for(index = 0; index < emails[reqUrl.query.email.toLowerCase()][reqUrl.query.class].length; index ++) {
+                    if(emails[reqUrl.query.email.toLowerCase()][reqUrl.query.class][index].id !== cont) {
+                        change.push(emails[reqUrl.query.email.toLowerCase()][reqUrl.query.class][index]);
+                    }
+                }
+                //console.log(change);
+                /*
+                console.log(current_email);
+                fs.writeFile('./src/back-end/data/emails.json', JSON.stringify(emails), (err) => {
+                    if(err) throw err;
+                });
+                */
+                emails[reqUrl.query.email.toLowerCase()][reqUrl.query.class] = change;
                 fs.writeFile('./src/back-end/data/emails.json', JSON.stringify(emails), (err) => {
                     if(err) throw err;
                 });
                 res.writeHead(200, headers);
-                res.end(`User-${reqUrl.query.email}'s-id-${reqUrl.query.id}-${reqUrl.query.class}-email-was-deleted`);
+                //res.end(`User-${reqUrl.query.email}'s-id-${reqUrl.query.id}-${reqUrl.query.class}-email-was-deleted`);
+                res.end(JSON.stringify({}));
             }
         }
     } else {

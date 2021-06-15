@@ -215,7 +215,7 @@
 
       function deleteEmail(){
         console.log(`http://localhost:3000/delete?email=${currentuser.email}&id=${currentemail[0].id}&class=${type}`)
-        //callAPI("DELETE", `http://localhost:3000/delete?email=${currentuser.email}&id=${currentemail[0].id}&class=${type}`, null, handleDeleteEmail)
+        callAPI("DELETE", `http://localhost:3000/delete?email=${currentuser.email}&id=${currentemail[0].id}&class=${type}`, null, handleDeleteEmail)
       }
       
       function handleDeleteEmail(response) {
