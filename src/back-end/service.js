@@ -30,7 +30,7 @@ exports.getUsers = function(res, headers) {
         res.end(JSON.stringify(response));
     } else {
         res.writeHead(404, headers);
-        res.end('Invalid-Request');
+        res.end(JSON.stringify(response));
     }
 };
 
@@ -43,25 +43,6 @@ exports.getCurrentUser = function(res, headers) {
     } else {
         res.writeHead(404, headers);
         res.end(JSON.stringify(response));
-    }
-};
-
-exports.getAllUserEmails = function(req, res, headers) {
-    const reqUrl = url.parse(req.url, true);
-
-    if(reqUrl.query.email){
-        var response = emails[reqUrl.query.email.toLowerCase()]
-
-        if(response === undefined) {
-            res.writeHead(404, headers);
-            res.end(JSON.stringify({}));
-        } else {
-            res.writeHead(200, headers);
-            res.end(JSON.stringify(response));
-        }
-    } else {
-        res.writeHead(400, headers);
-        res.end('Invalid-Request');
     }
 };
 
@@ -158,12 +139,10 @@ exports.setCurrentUser = function(req, res, headers) {
             "password": postBody.password,
         };
         
-        fs.writeFileSync('./src/back-end/data/emails.json', JSON.stringify(emails));
-        /*
         fs.writeFile('./src/back-end/data/emails.json', JSON.stringify(emails), (err) => {
             if(err) throw err;
         });
-        */
+        
         res.writeHead(200, headers);
         res.end(JSON.stringify(emails));
     });
@@ -203,43 +182,14 @@ exports.sendEmail = function(req, res, headers) {
             "body": postBody.body,
             "type": postBody.type
         };
-
-        fs.writeFileSync('./src/back-end/data/emails.json', JSON.stringify(emails));
-        /*
+        
         fs.writeFile('./src/back-end/data/emails.json', JSON.stringify(emails), (err) => {
             if(err) throw err;
         });
-        */
+        
         res.writeHead(200, headers);
         res.end(JSON.stringify(emails));
     });
-};
-
-exports.deleteAllEmails = function(req, res, headers) {
-    const reqUrl = url.parse(req.url, true);
-
-    if(reqUrl.query.email && reqUrl.query.class){
-        if(emails[reqUrl.query.email.toLowerCase()] === undefined) {
-            res.writeHead(404, headers);
-            res.end(JSON.stringify({}));
-        } else if(emails[reqUrl.query.email.toLowerCase()][reqUrl.query.class] === undefined){
-            res.writeHead(404, headers);
-            res.end(JSON.stringify({}));
-        } else {
-            emails[reqUrl.query.email.toLowerCase()][reqUrl.query.class] = []
-            fs.writeFileSync('./src/back-end/data/emails.json', JSON.stringify(emails));
-            /*
-            fs.writeFile('./src/back-end/data/emails.json', JSON.stringify(emails), (err) => {
-                if(err) throw err;
-            });
-            */
-            res.writeHead(200, headers);
-            res.end(`All-${reqUrl.query.class}-emails-were-deleted`);
-        }
-    } else {
-        res.writeHead(400, headers);
-        res.end('Invalid-Request');
-    }
 };
 
 exports.deleteEmail = function(req, res, headers) {

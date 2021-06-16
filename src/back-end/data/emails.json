@@ -35,7 +35,7 @@
                 "addressee":"weslley@email.com",
                 "date":"6/12/2021, 12:44:07 PM",
                 "subject":"Boas-vindas!",
-                "body":"Seja bem-vindo à aplicação e-mail do festus-bot. Explicação sobre como a aplicação funciona.",
+                "body":"Seja bem-vindo à aplicação e-mail do festus-bot.",
                 "type":"sent"
             }
         ],
@@ -77,7 +77,7 @@
                 "addressee":"weslley@email.com",
                 "date":"6/12/2021, 12:44:07 PM",
                 "subject":"Boas-vindas!",
-                "body":"Seja bem-vindo à aplicação e-mail do festus-bot. Explicação sobre como a aplicação funciona.",
+                "body":"Seja bem-vindo à aplicação e-mail do festus-bot.",
                 "type":"sent"
             }
         ]
