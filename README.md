@@ -195,4 +195,3 @@ Tal rota passa, através do corpo da requisição, os dados do novo e-mail a ser
  - Estrutura vazia ao exluir o email informado `STATUS: 200`
  - Estrutura vazia ao não encontrar o e-mail. `STATUS: 404`
  - "Requisição inválida" ao passar parâmetros inválidos. `STATUS 400`
- 

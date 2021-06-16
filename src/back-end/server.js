@@ -22,9 +22,6 @@ module.exports = http.createServer((req, res) => {
     } else if(reqUrl.pathname == '/currentuser' && req.method === 'GET'){
         console.log('Request Type: ' + req.method + ' Endpoint: ' + reqUrl.pathname);
         service.getCurrentUser(res, headers);
-    } else if(reqUrl.pathname == '/emails' && req.method === 'GET'){
-        console.log('Request Type: ' + req.method + ' Endpoint: ' + reqUrl.pathname);
-        service.getAllUserEmails(req, res, headers);
     } else if(reqUrl.pathname == '/emails-sended' && req.method === 'GET'){
         console.log('Request Type: ' + req.method + ' Endpoint: ' + reqUrl.pathname);
         service.getAllSendedEmails(req, res, headers); 
@@ -40,15 +37,6 @@ module.exports = http.createServer((req, res) => {
     } else if(reqUrl.pathname == '/send' && req.method === 'POST') {
         console.log('Request Type: ' + req.method + ' Endpoint: ' + reqUrl.pathname);
         service.sendEmail(req, res, headers);
-    } else if(reqUrl.pathname == '/response' && req.method === 'POST') {
-        console.log('Request Type: ' + req.method + ' Endpoint: ' + reqUrl.pathname);
-        service.sendResponse(req, res, headers);
-    } else if(reqUrl.pathname == '/foward' && req.method === 'POST') {
-        console.log('Request Type: ' + req.method + ' Endpoint: ' + reqUrl.pathname);
-        service.sendFoward(req, res, headers);
-    } else if(reqUrl.pathname == '/delete-all' && req.method === 'DELETE') {
-        console.log('Request Type: ' + req.method + ' Endpoint: ' + reqUrl.pathname);
-        service.deleteAllEmails(req, res, headers);
     } else if(reqUrl.pathname == '/delete' && req.method === 'DELETE') {
         console.log('Request Type: ' + req.method + ' Endpoint: ' + reqUrl.pathname);
         service.deleteEmail(req, res, headers);

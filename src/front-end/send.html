@@ -67,7 +67,7 @@
                   </div>
                   
                   <div class="form-group">
-                    <button type="submit" class="btn btn-success" onclick="sendEmail()">Send</button>
+                    <button type="text" class="btn btn-success" onclick="sendEmail()">Send</button>
                     <a href="inbox.html"><button type="submit" class="btn btn-danger">Discard</button></a>
                   </div>
                 </div>
@@ -149,6 +149,10 @@
         const email = document.getElementById("to").value;
         const subject = document.getElementById("cc").value;
         const body = document.getElementById("message").value;
+
+        console.log(email)
+        console.log(subject)
+        console.log(body)
 
         if(email.length === 0 || subject.length === 0 || body.length === 0) {
           alert("É preciso preencher todos os campos!");
